@@ -188,6 +188,23 @@
     transition:border-color .15s, transform .15s;
   }
   .card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+  .card-media{
+    aspect-ratio:16/10;
+    background:var(--bg-panel-2);
+    border-bottom:1px solid var(--border);
+    overflow:hidden;
+    position:relative;
+  }
+  .card-media img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(.9);
+  }
+  .card-media .placeholder{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    text-align:center; padding:10px;
+  }
   .card-head{
     display:flex; align-items:center; gap:8px;
     padding:12px 14px;
@@ -208,11 +225,39 @@
   .badge.sql{ color:var(--accent-2); border-color:#7a5a2a; }
   .badge.js{ color:#f0e08c; border-color:#7a742a; }
   .badge.css{ color:var(--accent); border-color:#2a5a5c; }
+  .badge.node{ color:#8fce6c; border-color:#3a6a2a; }
+  .badge.ts{ color:#7ea6ff; border-color:#2a3f7a; }
+  .badge.react{ color:#61dafb; border-color:#1f5a6b; }
+  .badge.python{ color:#f7d774; border-color:#7a6a2a; }
+  .badge.csharp{ color:#b98eff; border-color:#4a2a7a; }
+  .badge.java{ color:#ef8a5c; border-color:#7a4a2a; }
   .card-link{
     font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
     display:flex; align-items:center; gap:6px;
   }
   .card-link:hover{ color:var(--accent); }
+
+  /* ============================================
+     MINI-SECTIONS LANGAGES — zones "en préparation"
+     ============================================ */
+  section.lang-section{ padding:38px 0; }
+  .empty-state{
+    border:1px dashed var(--border);
+    border-radius:8px;
+    padding:26px 24px;
+    background:var(--bg-panel);
+    font-family:var(--mono);
+  }
+  .empty-state .prompt-line{ margin-bottom:14px; }
+  .empty-state .empty-msg{
+    font-family:var(--sans); font-size:.92rem; color:var(--text-dim);
+    margin-bottom:16px;
+  }
+  .empty-state .empty-cta{
+    font-family:var(--mono); font-size:12.5px;
+  }
+  .empty-state .empty-cta a{ color:var(--accent); }
+  .empty-state .empty-cta a:hover{ color:var(--accent-2); text-decoration:underline; }
 
   /* ============================================
      STACK — bloc "config" façon package.json
@@ -282,6 +327,12 @@
     <nav class="tabs" aria-label="Navigation principale">
       <a class="tab active" href="#accueil" data-target="accueil">index<span class="ext">.html</span></a>
       <a class="tab" href="#projets" data-target="projets">projets<span class="ext">.php</span></a>
+      <a class="tab" href="#javascript" data-target="javascript">script<span class="ext">.js</span></a>
+      <a class="tab" href="#typescript" data-target="typescript">app<span class="ext">.ts</span></a>
+      <a class="tab" href="#react" data-target="react">App<span class="ext">.jsx</span></a>
+      <a class="tab" href="#python" data-target="python">main<span class="ext">.py</span></a>
+      <a class="tab" href="#csharp" data-target="csharp">Program<span class="ext">.cs</span></a>
+      <a class="tab" href="#java" data-target="java">Main<span class="ext">.java</span></a>
       <a class="tab" href="#stack" data-target="stack">stack<span class="ext">.json</span></a>
       <a class="tab" href="#contact" data-target="contact">contact<span class="ext">.php</span></a>
     </nav>
@@ -322,123 +373,289 @@
         <!-- Répète ce bloc .card pour chaque projet — modifie titre, description, badges et lien -->
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/bibliotheque.gif" alt="Démo de bibliotheque"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/bibliotheque.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>bibliotheque/</div>
           <div class="card-body">
             <p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/bibliotheque" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
+        <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/bibliotheque-v2.gif" alt="Démo de bibliotheque-v2"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/bibliotheque-v2.gif</div>
+          </div>
+          <div class="card-head"><span class="folder">📁</span>bibliotheque-v2/</div>
+          <div class="card-body">
+            <p>Refonte du projet Bibliothèque : amélioration de l'architecture et ajout de fonctionnalités.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/bibliotheque-v2" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/centre-formations.gif" alt="Démo de centre-formations"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/centre-formations.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>centre-formations/</div>
           <div class="card-body">
             <p>Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/centre-formations" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/codewarden.gif" alt="Démo de codewarden"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/codewarden.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>codewarden/</div>
           <div class="card-body">
             <p>Outil de suivi/revue de code — à compléter avec le détail exact du projet.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge js">JS</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/codewarden" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/dashboard.gif" alt="Démo de dashboard"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/dashboard.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>dashboard/</div>
           <div class="card-body">
             <p>Tableau de bord d'administration avec visualisation de données et gestion des accès.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge js">JS</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/dashboard" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/eval-fs-s2-26.gif" alt="Démo de eval-fs-s2-26"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/eval-fs-s2-26.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>eval-fs-s2-26/</div>
           <div class="card-body">
             <p>Évaluation Full-Stack Semestre 2 — application PHP complète notée dans le cadre de l'ESIEA.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/eval-fs-s2-26" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/eval-ms-26m.gif" alt="Démo de eval-ms-26m"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/eval-ms-26m.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>eval-ms-26m/</div>
           <div class="card-body">
             <p>Évaluation Microservices — architecture de services indépendants communicant entre eux.</p>
             <div class="badges"><span class="badge php">PHP</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/eval-ms-26m" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/poterie.gif" alt="Démo de poterie"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/poterie.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>poterie/</div>
           <div class="card-body">
             <p>Boutique en ligne pour un atelier de poterie : catalogue de pièces, panier et commande.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/poterie" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/rattarchiwebs2.gif" alt="Démo de rattarchiwebs2"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/rattarchiwebs2.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>rattarchiwebs2/</div>
           <div class="card-body">
             <p>Projet de rattrapage — Architecture Web Semestre 2, structuration d'une application PHP.</p>
             <div class="badges"><span class="badge php">PHP</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/rattarchiwebs2" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/studio-enreg.gif" alt="Démo de studio-enreg"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/studio-enreg.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>studio-enreg/</div>
           <div class="card-body">
             <p>Système de réservation pour un studio d'enregistrement : créneaux, disponibilités et confirmation.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/studio-enreg" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/studio-photo.gif" alt="Démo de studio-photo"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/studio-photo.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>studio-photo/</div>
           <div class="card-body">
             <p>Site vitrine et réservation pour un studio photo : galerie, forfaits et prise de rendez-vous.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/studio-photo" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/teamride.gif" alt="Démo de teamride"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/teamride.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>teamride/</div>
           <div class="card-body">
             <p>Application de covoiturage étudiant : publication de trajets, réservation de places.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge js">JS</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/teamride" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/vetcare.gif" alt="Démo de vetcare"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/vetcare.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>vetcare/</div>
           <div class="card-body">
             <p>Gestion de clinique vétérinaire : dossiers patients, rendez-vous et suivi des soins.</p>
             <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/vetcare" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
         <article class="card">
+          <div class="card-media">
+            <!-- Remplace par : <img src="screenshots/webalizer.gif" alt="Démo de webalizer"> -->
+            <div class="placeholder">capture / gif à venir<br>screenshots/webalizer.gif</div>
+          </div>
           <div class="card-head"><span class="folder">📁</span>webalizer/</div>
           <div class="card-body">
             <p>Outil d'analyse de statistiques de trafic web à partir de fichiers de logs.</p>
             <div class="badges"><span class="badge php">PHP</span></div>
-            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/webalizer" target="_blank" rel="noopener">→ voir le code</a>
           </div>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       JAVASCRIPT / NODE.JS — à remplir dès le premier projet
+       ============================================ -->
+  <section id="javascript" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">javascript</span><span class="tag">/&gt;</span>
+        <small>Node.js</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls javascript/</p>
+        <p class="empty-msg">Aucun projet Node.js publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet Node.js</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       TYPESCRIPT
+       ============================================ -->
+  <section id="typescript" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">typescript</span><span class="tag">/&gt;</span>
+        <small>TS</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls typescript/</p>
+        <p class="empty-msg">Aucun projet TypeScript publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet TypeScript</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       REACT
+       ============================================ -->
+  <section id="react" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">react</span><span class="tag">/&gt;</span>
+        <small>JSX</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls react/</p>
+        <p class="empty-msg">Aucun projet React publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet React</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PYTHON
+       ============================================ -->
+  <section id="python" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">python</span><span class="tag">/&gt;</span>
+        <small>.py</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls python/</p>
+        <p class="empty-msg">Aucun projet Python publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet Python</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       C#
+       ============================================ -->
+  <section id="csharp" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">csharp</span><span class="tag">/&gt;</span>
+        <small>.cs</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls csharp/</p>
+        <p class="empty-msg">Aucun projet C# publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet C#</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       JAVA
+       ============================================ -->
+  <section id="java" class="lang-section">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">java</span><span class="tag">/&gt;</span>
+        <small>.java</small>
+      </div>
+      <div class="empty-state">
+        <p class="prompt-line"><span class="sym">$</span>ls java/</p>
+        <p class="empty-msg">Aucun projet Java publié pour l'instant — le prochain arrivera ici.</p>
+        <p class="empty-cta">→ <a href="#contact">discuter d'un projet Java</a></p>
       </div>
     </div>
   </section>
@@ -456,7 +673,8 @@
       <div class="stackfile">
         <div class="stackfile-head">stack.json</div>
         <div class="stackfile-body">
-          <div class="stack-row"><span class="key">"langages"</span><span class="val">:  [<span>PHP</span><span>SQL</span><span>JavaScript</span><span>HTML</span><span>CSS</span>]</span></div>
+          <div class="stack-row"><span class="key">"langages"</span><span class="val">:  [<span>PHP</span><span>SQL</span><span>JavaScript</span><span>TypeScript</span><span>Python</span><span>C#</span><span>Java</span><span>HTML</span><span>CSS</span>]</span></div>
+          <div class="stack-row"><span class="key">"frameworks"</span><span class="val">: [<span>Node.js</span><span>React</span>]</span></div>
           <div class="stack-row"><span class="key">"bases"</span><span class="val">:      [<span>MySQL</span><span>phpMyAdmin</span>]</span></div>
           <div class="stack-row"><span class="key">"outils"</span><span class="val">:     [<span>VS Code</span><span>XAMPP</span><span>Git</span>]</span></div>
           <div class="stack-row"><span class="key">"savoir-etre"</span><span class="val">: [<span>Autonomie</span><span>Rigueur</span><span>Travail d'équipe</span>]</span></div>
