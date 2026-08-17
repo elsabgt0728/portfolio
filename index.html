@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elsa Borget — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     TOKENS — modifie ces variables pour personnaliser
+     ============================================ */
+  :root{
+    --bg:            #0f1419;
+    --bg-panel:      #161b22;
+    --bg-panel-2:    #1c232c;
+    --border:        #2a323d;
+    --text:          #c9d1d9;
+    --text-dim:      #6e7681;
+    --text-bright:   #f0f3f6;
+    --accent:        #56b6c2;   /* cyan — liens, mots-clés */
+    --accent-2:      #e5a15c;   /* ambre — hover, highlights */
+    --accent-3:      #b98eff;   /* violet — types/tags */
+    --ok:            #7ee787;
+    --danger:        #ff6b6b;
+
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    font-size:16px;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  a:focus-visible, button:focus-visible, .tab:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ============================================
+     TITLE BAR — barre de fenêtre façon éditeur
+     ============================================ */
+  .titlebar{
+    position:sticky; top:0; z-index:50;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+  }
+  .titlebar-top{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 16px;
+    font-family:var(--mono); font-size:12px; color:var(--text-dim);
+  }
+  .dots{ display:flex; gap:6px; }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.red{ background:#ff5f56; }
+  .dot.yellow{ background:#ffbd2e; }
+  .dot.green{ background:#27c93f; }
+  .titlebar-name{ margin-left:6px; }
+
+  .tabs{
+    display:flex; overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tab{
+    font-family:var(--mono); font-size:13px;
+    padding:10px 18px;
+    color:var(--text-dim);
+    border-right:1px solid var(--border);
+    white-space:nowrap;
+    display:flex; align-items:center; gap:8px;
+    cursor:pointer;
+    background:transparent;
+    transition:color .15s, background .15s;
+  }
+  .tab:hover{ color:var(--text); background:var(--bg-panel-2); }
+  .tab.active{
+    color:var(--accent);
+    background:var(--bg);
+    border-top:2px solid var(--accent);
+    margin-top:-1px;
+  }
+  .tab .ext{ color:var(--accent-3); }
+
+  /* ============================================
+     HERO — séquence de terminal
+     ============================================ */
+  .hero{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--border);
+  }
+  .prompt-line{
+    font-family:var(--mono); font-size:14px; color:var(--text-dim);
+    margin-bottom:6px;
+  }
+  .prompt-line .sym{ color:var(--accent-2); margin-right:8px; }
+
+  .hero h1{
+    font-family:var(--mono);
+    font-size:clamp(2rem, 5vw, 3.4rem);
+    font-weight:700;
+    color:var(--text-bright);
+    margin:10px 0 6px;
+    letter-spacing:-0.5px;
+  }
+  .hero h1 .punct{ color:var(--accent); }
+
+  .hero .role{
+    font-family:var(--mono);
+    font-size:clamp(1rem, 2vw, 1.25rem);
+    color:var(--accent-2);
+    margin-bottom:22px;
+  }
+  .cursor{
+    display:inline-block; width:.55em; height:1.05em;
+    background:var(--accent); margin-left:4px; vertical-align:-3px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero p.bio{
+    max-width:620px; color:var(--text); font-size:1rem;
+    margin-bottom:30px;
+  }
+
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:14px;
+    padding:12px 22px; border-radius:6px;
+    border:1px solid var(--border);
+    transition:border-color .15s, transform .15s, background .15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn.primary{ background:var(--accent); color:#0f1419; border-color:var(--accent); font-weight:600; }
+  .btn.primary:hover{ transform:translateY(-2px); background:var(--accent-2); border-color:var(--accent-2); }
+  .btn.ghost{ color:var(--text); }
+  .btn.ghost:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+  /* ============================================
+     SECTION HEADERS — façon "ligne de code repliable"
+     ============================================ */
+  section{ padding:70px 0; border-bottom:1px solid var(--border); }
+  section:last-of-type{ border-bottom:none; }
+
+  .sec-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:38px;
+    font-family:var(--mono);
+  }
+  .sec-head .chevron{ color:var(--accent); font-size:1.1rem; }
+  .sec-head .tag{ color:var(--accent-3); font-size:1.6rem; font-weight:700; }
+  .sec-head .name{ color:var(--text-bright); font-size:1.6rem; font-weight:700; }
+  .sec-head .close{ color:var(--accent-3); font-size:1.6rem; font-weight:700; }
+  .sec-head small{
+    font-family:var(--sans); color:var(--text-dim); font-size:.85rem;
+    margin-left:auto; white-space:nowrap;
+  }
+
+  /* ============================================
+     PROJETS — grille de "fichiers"
+     ============================================ */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap:18px;
+  }
+  .card{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    transition:border-color .15s, transform .15s;
+  }
+  .card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+  .card-head{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 14px;
+    background:var(--bg-panel-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono); font-size:13.5px; color:var(--text-bright);
+  }
+  .card-head .folder{ color:var(--accent-2); }
+  .card-body{ padding:16px; display:flex; flex-direction:column; gap:12px; flex:1; }
+  .card-body p{ font-size:.92rem; color:var(--text); flex:1; }
+  .badges{ display:flex; flex-wrap:wrap; gap:6px; }
+  .badge{
+    font-family:var(--mono); font-size:11px;
+    padding:3px 9px; border-radius:20px;
+    border:1px solid var(--border); color:var(--text-dim);
+  }
+  .badge.php{ color:#8fa8ff; border-color:#3a4a7a; }
+  .badge.sql{ color:var(--accent-2); border-color:#7a5a2a; }
+  .badge.js{ color:#f0e08c; border-color:#7a742a; }
+  .badge.css{ color:var(--accent); border-color:#2a5a5c; }
+  .card-link{
+    font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+  .card-link:hover{ color:var(--accent); }
+
+  /* ============================================
+     STACK — bloc "config" façon package.json
+     ============================================ */
+  .stackfile{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .stackfile-head{
+    padding:10px 16px; font-family:var(--mono); font-size:13px;
+    color:var(--text-dim); background:var(--bg-panel-2);
+    border-bottom:1px solid var(--border);
+  }
+  .stackfile-body{ padding:22px 26px; font-family:var(--mono); font-size:14px; }
+  .stack-row{ display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .stack-row .key{ color:var(--accent-3); min-width:110px; }
+  .stack-row .val{ color:var(--accent); }
+  .stack-row .val span{ color:var(--text); }
+  .stack-row .val span:not(:last-child)::after{ content:", "; color:var(--text-dim); }
+
+  /* ============================================
+     CONTACT — terminal
+     ============================================ */
+  .terminal{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:8px;
+    max-width:620px;
+  }
+  .terminal-head{
+    padding:10px 16px; display:flex; align-items:center; gap:8px;
+    background:var(--bg-panel-2); border-bottom:1px solid var(--border);
+  }
+  .terminal-head span{ font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-left:4px; }
+  .terminal-body{ padding:22px 24px; font-family:var(--mono); font-size:14px; }
+  .terminal-body .line{ margin-bottom:12px; }
+  .terminal-body .line .sym{ color:var(--accent-2); margin-right:8px; }
+  .terminal-body a{ color:var(--accent); }
+  .terminal-body a:hover{ color:var(--accent-2); text-decoration:underline; }
+
+  footer{
+    padding:30px 0 50px;
+    font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
+    text-align:center;
+  }
+
+  @media (max-width:600px){
+    .sec-head small{ display:none; }
+    .hero{ padding:60px 0 50px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================
+       BARRE DE FENÊTRE + NAVIGATION (onglets)
+       ============================================ -->
+  <div class="titlebar">
+    <div class="titlebar-top">
+      <div class="dots">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      </div>
+      <span class="titlebar-name">elsa-borget — portfolio — Visual Studio Code</span>
+    </div>
+    <nav class="tabs" aria-label="Navigation principale">
+      <a class="tab active" href="#accueil" data-target="accueil">index<span class="ext">.html</span></a>
+      <a class="tab" href="#projets" data-target="projets">projets<span class="ext">.php</span></a>
+      <a class="tab" href="#stack" data-target="stack">stack<span class="ext">.json</span></a>
+      <a class="tab" href="#contact" data-target="contact">contact<span class="ext">.php</span></a>
+    </nav>
+  </div>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <header class="hero" id="accueil">
+    <div class="wrap">
+      <div class="prompt-line"><span class="sym">$</span>whoami</div>
+      <h1>Elsa Borget<span class="punct">;</span></h1>
+      <div class="role">// Étudiante développement web &amp; IA — ESIEA<span class="cursor" aria-hidden="true"></span></div>
+      <p class="bio">
+        Je conçois des applications web en PHP/MySQL, du back-end à l'interface.
+        Actuellement en formation Logiciel &amp; Intelligence Artificielle à l'ESIEA,
+        je construis des projets concrets — gestion, réservation, e-commerce — en solo ou en équipe.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#projets">Voir mes projets</a>
+        <a class="btn ghost" href="#contact">Me contacter</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================
+       PROJETS
+       ============================================ -->
+  <section id="projets">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">projets</span><span class="tag">/&gt;</span>
+        <small>14 dossiers</small>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Répète ce bloc .card pour chaque projet — modifie titre, description, badges et lien -->
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>bibliotheque/</div>
+          <div class="card-body">
+            <p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>centre-formations/</div>
+          <div class="card-body">
+            <p>Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge css">CSS</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>codewarden/</div>
+          <div class="card-body">
+            <p>Outil de suivi/revue de code — à compléter avec le détail exact du projet.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge js">JS</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>dashboard/</div>
+          <div class="card-body">
+            <p>Tableau de bord d'administration avec visualisation de données et gestion des accès.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge js">JS</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>eval-fs-s2-26/</div>
+          <div class="card-body">
+            <p>Évaluation Full-Stack Semestre 2 — application PHP complète notée dans le cadre de l'ESIEA.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>eval-ms-26m/</div>
+          <div class="card-body">
+            <p>Évaluation Microservices — architecture de services indépendants communicant entre eux.</p>
+            <div class="badges"><span class="badge php">PHP</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>poterie/</div>
+          <div class="card-body">
+            <p>Boutique en ligne pour un atelier de poterie : catalogue de pièces, panier et commande.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge css">CSS</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>rattarchiwebs2/</div>
+          <div class="card-body">
+            <p>Projet de rattrapage — Architecture Web Semestre 2, structuration d'une application PHP.</p>
+            <div class="badges"><span class="badge php">PHP</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>studio-enreg/</div>
+          <div class="card-body">
+            <p>Système de réservation pour un studio d'enregistrement : créneaux, disponibilités et confirmation.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>studio-photo/</div>
+          <div class="card-body">
+            <p>Site vitrine et réservation pour un studio photo : galerie, forfaits et prise de rendez-vous.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge css">CSS</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>teamride/</div>
+          <div class="card-body">
+            <p>Application de covoiturage étudiant : publication de trajets, réservation de places.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge js">JS</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>vetcare/</div>
+          <div class="card-body">
+            <p>Gestion de clinique vétérinaire : dossiers patients, rendez-vous et suivi des soins.</p>
+            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span class="folder">📁</span>webalizer/</div>
+          <div class="card-body">
+            <p>Outil d'analyse de statistiques de trafic web à partir de fichiers de logs.</p>
+            <div class="badges"><span class="badge php">PHP</span></div>
+            <a class="card-link" href="#" target="_blank" rel="noopener">→ voir le code</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STACK TECHNIQUE
+       ============================================ -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">stack</span><span class="tag">/&gt;</span>
+        <small>compétences</small>
+      </div>
+
+      <div class="stackfile">
+        <div class="stackfile-head">stack.json</div>
+        <div class="stackfile-body">
+          <div class="stack-row"><span class="key">"langages"</span><span class="val">:  [<span>PHP</span><span>SQL</span><span>JavaScript</span><span>HTML</span><span>CSS</span>]</span></div>
+          <div class="stack-row"><span class="key">"bases"</span><span class="val">:      [<span>MySQL</span><span>phpMyAdmin</span>]</span></div>
+          <div class="stack-row"><span class="key">"outils"</span><span class="val">:     [<span>VS Code</span><span>XAMPP</span><span>Git</span>]</span></div>
+          <div class="stack-row"><span class="key">"savoir-etre"</span><span class="val">: [<span>Autonomie</span><span>Rigueur</span><span>Travail d'équipe</span>]</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CONTACT
+       ============================================ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="chevron">▾</span><span class="tag">&lt;</span><span class="name">contact</span><span class="tag">/&gt;</span>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-head">
+          <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+          <span>bash</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="sym">$</span>cat contact.txt</div>
+          <div class="line">email&nbsp;&nbsp;&nbsp;&nbsp;: <a href="mailto:borgetm9@gmail.com">borgetm9@gmail.com</a></div>
+          <div class="line">tel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 07 44 64 74 92</div>
+          <div class="line">linkedin&nbsp;: <a href="https://www.linkedin.com/in/elsa-borget" target="_blank" rel="noopener">linkedin.com/in/elsa-borget</a></div>
+          <div class="line">github&nbsp;&nbsp;&nbsp;: <a href="#" target="_blank" rel="noopener">github.com/ton-pseudo</a></div>
+          <div class="line"><span class="sym">$</span><span class="cursor" aria-hidden="true"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Elsa Borget — construit avec HTML/CSS/JS, sans framework.
+  </footer>
+
+  <script>
+    // Onglet actif au scroll
+    const tabs = document.querySelectorAll('.tab');
+    const sections = [...tabs].map(t => document.getElementById(t.dataset.target));
+
+    function setActiveTab(){
+      let current = sections[0];
+      const y = window.scrollY + 120;
+      sections.forEach(sec => { if (sec.offsetTop <= y) current = sec; });
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.target === current.id));
+    }
+    window.addEventListener('scroll', setActiveTab, { passive:true });
+    setActiveTab();
+  </script>
+
+</body>
+</html>
