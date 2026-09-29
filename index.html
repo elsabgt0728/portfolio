@@ -553,11 +553,11 @@ body.on .portrait{ opacity:1; }
   <h2 class = "tx">Mon CV</h2>
   <p class = "cvtxt">Retrouve mon parcours, mes compétences et mes expériences.</p>
   <div class = "cvbtns">
-    <a class = "cvbtn" href = "cv_elsa_borget.pdf" download = "CV_Elsa_Borget.pdf">
-      <i class = "fa-solid fa-download"></i> Télécharger mon CV
+    <a class = "cvbtn" href = "CV_BORGET_ELSA_developpeusefullstack_stage.pdf" download = "CV_BORGET_ELSA_developpeusefullstack_stage.pdf">
+  <i class = "fa-solid fa-download"></i> Télécharger mon CV
     </a>
-    <a class = "cvlink" href = "cv_elsa_borget.pdf" target = "_blank" rel = "noopener">
-      <i class = "fa-solid fa-eye"></i> Voir en ligne
+    <a class = "cvlink" href = "CV_BORGET_ELSA_developpeusefullstack_stage.pdf" target = "_blank" rel = "noopener">
+  <i class = "fa-solid fa-eye"></i> Voir en ligne
     </a>
   </div>
 </section>
@@ -696,9 +696,9 @@ document.querySelectorAll('.proj') .forEach(function(el,n) {
   html += '<circle cx = "'+p[0]+'" cy = "'+p[1]+'" r = "4"/>';
   }) ;
   g.innerHTML = html;
-  el.addEventListener('click',function (e)  {wormhole(e,el.dataset.t,el.dataset.d,n) }) ;
-  el.addEventListener('mouseenter',function() {blip(300+n*150) }) ;
-  el.addEventListener('keydown',function (e)  {if(e.key === 'Enter') wormhole({clientX:W/2,clientY:H/2},el.dataset.t,el.dataset.d,n) }) ;
+  el.addEventListener('click',function (e)  { wormhole(e,el.dataset.t,el.dataset.d,n) }) ;
+  el.addEventListener('mouseenter',function() { blip(300+n*150) }) ;
+  el.addEventListener('keydown',function (e)  { if(e.key === 'Enter') wormhole({clientX:W/2,clientY:H/2},el.dataset.t,el.dataset.d,n) }) ;
 }) ;
 
 // Texte révélé lettre par lettre
