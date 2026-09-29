@@ -1,463 +1,916 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberPortfolio</title>
-    <!-- link to fontawesome for inserting social media icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
+<meta charset = "utf-8">
+<meta name = "viewport" content = "width=device-width, initial-scale = 1, viewport-fit = cover">
+<title>Elsa Borget · Développeuse fullstack</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=Instrument+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
 
-        :root{
-            --bg: #0b0f0e;
-            --bg-panel: #10201a;
-            --bg-panel-2: #1c232c;
-            --border:#2a323d;
-            --green: #2ecc71;
-            --green-bright: #39ff88;
-            --text: #e6f2ec;
-            --text-dim: #9fb3ab;
-            --text-bright: #f0f3f6;
-            --accent-2: #e5a15c;
-            --accent: rgba(46,204,113,0.55);
-            --mono: 'JetBrains Mono', ui-monospace, monospace;
-            --sans: 'Inter', system-ui, sans-serif;
-        }
+/*ease-in-out ! =  ease-out
+transition ! =  animation */
 
-        body{
-            background: var(--bg);
-            color: var(--text);
-        }
+:root{
+  --a:#0a0f2c;
+  --b:#1b1740;
+  --star:#f3ecd8;
+  --glow:#ffcf7a;
+  --ink:#f3ecd8;
+  --mute:#a9a6c4;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px) ;
+  padding-bottom:env(safe-area-inset-bottom,0px) 
+}
 
-        a{ text-decoration: none; color: inherit; }
+html
+{ scroll-padding-top:env(safe-area-inset-top,0px) ;
+  scroll-behavior:smooth
+}
 
-        /* ---------- Navigation ---------- */
-        .navbar{
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 60px;
-            background: rgba(11,15,14,0.85);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(46,204,113,0.15);
-        }
+*{box-sizing:border-box} /*evite les debordements*/
 
-        .logo{
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--green-bright);
-            letter-spacing: 0.5px;
-        }
+body{
+  margin:0;
+  background:linear-gradient(180deg, var(--a) ,var(--b)) ;
+  color:var(--ink) ;
+  font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;
+  overflow-x:hidden;
+  transition:background 2s
+}
 
-        .nav-links{
-            display: flex;
-            gap: 36px;
-            list-style: none;
-        }
+canvas#sky{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0 /*gere  les empilements des pages et textes + le z-index est grand plus la page est en avant*/
+}
 
-        .nav-links a{
-            color: var(--text);
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+main{
+  position:relative;
+  z-index:1
+}
 
-        .nav-links a:hover{ color: var(--green-bright); }
+section{
+  min-height:100vh;
+  padding:12vh 7vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
 
-        /* ---------- Hero ---------- */
-        .hero{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            min-height: 100vh;
-            padding: 120px 60px 60px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+h1,h2{
+  font-family:Fraunces,Georgia,serif;
+  font-weight:300;
+  margin:0;
+  line-height:1.05 /*espace vertical entre deux ligne de texte*/
+}
+h1{
+  font-size:clamp(3rem,13vw,9rem) ; /*la taille du texte s'adapte a celle de l'ecran min 3 max 9rem*/
+  opacity:0; /* transparence*/
+  transition:opacity 2.4s 1.6s
+}
+body.on h1
+{
+  opacity:1
+}
 
-        .hero-content{ max-width: 560px; }
+h2{
+  font-size:clamp(1.8rem,5vw,3.4rem) ;
+  margin-bottom:.4em
+}
 
-        .hero-content h1{
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--green-bright);
-            margin-bottom: 20px;
-            line-height: 1.15;
-        }
+/*Le nom apparaît en fondu, 1,6 s après le déclenchement.*/
+.sub{
+  max-width:34ch;
+  color:var(--mute) ;
+  opacity:0;
+  transition:opacity 1.5s 3s /*transition: propriété durée délai*/
+}
 
-        .hero-content p{
-            color: var(--text-dim);
-            font-size: 1.05rem;
-            margin-bottom: 14px;
-            line-height: 1.6;
-        }
+body.on .sub{
+  opacity:1
+}
 
-        .hero-content p.highlight{
-            color: var(--text);
-        }
+.hint{
+  position:absolute;
+  bottom:5vh;
+  left:7vw;
+  color:var(--mute) ;
+  font-size:.9rem;
+  animation:bob 2.5s ease-in-out infinite /*rebond de la petite phrase de fin*/
+}
 
-        .cta-button{
-            display: inline-block;
-            margin-top: 20px;
-            padding: 13px 30px;
-            background: var(--green);
-            color: #06140d;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-        }
+@keyframes bob{
+  50%{transform:translateY(8px) } /*rebond vertical*/
+}
 
-        .cta-button:hover{
-            background: var(--green-bright);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(57,255,136,0.35);
-        }
+.proj{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1rem;
+  align-items:center;
+  cursor:pointer
+}
 
-        .hero-image{
-            flex-shrink: 0;
-        }
+@media(min-width:800px) {
+.proj{
+  grid-template-columns:1fr 1fr;
+  gap:4rem
+   }
+}
 
-        .profile-img{
-            width: 340px;
-            height: 340px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--green);
-            box-shadow: 0 0 45px rgba(46,204,113,0.55), 0 0 90px rgba(46,204,113,0.25);
-        }
+.proj svg{
+  width:100%;
+  max-height:52vh;
+  overflow:visible
+}
 
-        /* ---------- Skills ---------- */
-        .skills{
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 60px;
-            text-align: center;
-        }
+.proj line{
+  stroke:var(--glow) ;
+  stroke-width:1.2; /* épaisseur du trait */
+  stroke-dasharray:var(--l) ;
+  stroke-dashoffset:var(--l) ;
+  transition:stroke-dashoffset 1.6s ease-out;
+  opacity:.7
+}
 
-        .skills h2{
-            font-size: 2rem;
-            color: var(--green-bright);
-            margin-bottom: 44px;
-        }
+.proj.in line{
+  stroke-dashoffset:0
+}
 
-        .skills-grid{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
-        }
+.proj circle{
+  fill:var(--star) ;
+  transition:r .4s,fill .4s;
+  filter:drop-shadow(0 0 6px var(--glow)) 
+}
 
-        .skill-card{
-            background: var(--bg-panel);
-            border: 1px solid rgba(46,204,113,0.18);
-            border-radius: 14px;
-            padding: 36px 24px;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
+.proj:hover circle,.proj:focus-visible circle{
+  fill:var(--glow) ;
+  r:7
+}
 
-        .skill-card:hover{
-            transform: translateY(-6px);
-            border-color: var(--green);
-            box-shadow: 0 14px 30px rgba(46,204,113,0.18);
-        }
+.proj:focus-visible{
+  outline:2px solid var(--glow) ;
+  outline-offset:8px
+}
 
-        .skill-card i{
-            font-size: 2.2rem;
-            color: var(--green-bright);
-            margin-bottom: 18px;
-        }
+.tags{
+  color:var(--glow) ;
+  font-size:.9rem
+}
 
-        .skill-card h3{
-            font-size: 1.15rem;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
+.tx span{
+  display:inline-block;
+  opacity:0;
+  filter:blur(8px) ; /*blur  =  flou*/
+  transition:opacity .6s,filter .6s
+}
+.in .tx span,.tx.in span{
+  opacity:1;
+  filter:none
+}
 
-        .skill-card p{
-            color: var(--text-dim);
-            font-size: 0.92rem;
-            line-height: 1.5;
-        }
+form{
+  display:grid;
+  gap:1rem;
+  max-width:460px;
+  position:relative
+}
 
-        /* ---------- Footer ---------- */
-        footer{
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(46,204,113,0.15);
-            color: var(--text-dim);
-        }
+input,textarea{
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--mute) ;
+  color:var(--ink) ;
+  font:inherit;
+  padding:.6rem 0
+}
 
-        .social-links{
-            margin-top: 16px;
-            display: flex;
-            justify-content: center;
-            gap: 22px;
-        }
+input:focus,textarea:focus{ /*Cible un élément lorsqu'il a le focus (clic, tabulation, saisie) */
+  outline:0;
+  border-color:var(--glow) 
+}
 
-        .social-links a{
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--bg-panel);
-            border: 1px solid rgba(46,204,113,0.25);
-            color: var(--text);
-            transition: color 0.2s, border-color 0.2s, transform 0.2s;
-        }
+.mag{
+  justify-self:start;
+  background:var(--glow) ;
+  color:#1a1230;border:0;
+  border-radius:99px;
+  padding:.9rem 2rem;
+  font:600 1rem "Instrument Sans",sans-serif;
+  cursor:pointer;
+  transition:transform .2s
+}
 
-        .social-links a:hover{
-            color: var(--green-bright);
-            border-color: var(--green);
-            transform: translateY(-3px);
-        }
+.mag:focus-visible{
+  outline:2px solid var(--star) ;
+  outline-offset:4px
+}
 
-        .projects-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
-            gap:18px;
-        }
+#rocket{
+  position:fixed;       /*ne bouge pas aux scroll*/
+  left:50%;
+  bottom:20vh;
+  width:56px;
+  z-index:8;
+  opacity:0;
+  pointer-events:none       
+}
 
-        .card{
-            background:var(--bg-panel);
-            border:1px solid var(--border);
-            border-radius:8px;
-            overflow:hidden;
-            display:flex; flex-direction:column;
-            transition:border-color .15s, transform .15s;
-        }
-        .card:hover{ border-color:var(--accent); transform:translateY(-3px); }
-        .card-media{
-            aspect-ratio:16/10;
-            background:var(--bg-panel-2);
-            border-bottom:1px solid var(--border);
-            overflow:hidden;
-            position:relative;
-        }
-        .card-media img{
-            width:100%; height:100%; object-fit:cover; display:block;
-            filter:saturate(.9);
-        }
-        .card-media .placeholder{
-            position:absolute; inset:0;
-            display:flex; align-items:center; justify-content:center;
-            font-family:var(--mono); font-size:11px; color:var(--text-dim);
-            text-align:center; padding:10px;
-        }
-        .card-head{
-            display:flex; align-items:center; gap:8px;
-            padding:12px 14px;
-            background:var(--bg-panel-2);
-            border-bottom:1px solid var(--border);
-            font-family:var(--mono); font-size:13.5px; color:var(--text-bright);
-        }
-        .card-head .folder{ color:var(--accent-2); }
-        .card-body{ padding:16px; display:flex; flex-direction:column; gap:12px; flex:1; }
-        .card-body p{ font-size:.92rem; color:var(--text); flex:1; }
-        .badges{ display:flex; flex-wrap:wrap; gap:6px; }
-        .badge{
-            font-family:var(--mono); font-size:11px;
-            padding:3px 9px; border-radius:20px;
-            border:1px solid var(--border); color:var(--text-dim);
-        }
+#rocket.go{           /*courbe de vitesse*/
+  animation:fly 2.2s cubic-bezier(.5,0,.9,.4)  forwards /* forwards : à la fin, la fusée garde sa position finale. Sans ce mot, elle reviendrait d'un coup à son état de départ*/
+}
 
-        .badge.php{ color:#8fa8ff; border-color:#3a4a7a; }
-        .badge.sql{ color:var(--accent-2); border-color:#7a5a2a; }
-        .badge.js{ color:#f0e08c; border-color:#7a742a; }
-        .badge.css{ color:var(--accent); border-color:#2a5a5c; }
-        .badge.node{ color:#8fce6c; border-color:#3a6a2a; }
-        .badge.ts{ color:#7ea6ff; border-color:#2a3f7a; }
-        .badge.react{ color:#61dafb; border-color:#1f5a6b; }
-        .badge.python{ color:#f7d774; border-color:#7a6a2a; }
-        .badge.csharp{ color:#b98eff; border-color:#4a2a7a; }
-        .badge.java{ color:#ef8a5c; border-color:#7a4a2a; }
+/* effet de la fusée au clic du bouton linkedin*/
+@keyframes fly{
+  0%{opacity:1;transform:translate(0,0)  rotate(0) }
+  20%{transform:translate(-10px,10px)  rotate(-8deg) }  /*recule, prends l'elan*/
+  100%{opacity:1;transform:translate(180px,-120vh)  rotate(20deg) }  /*sors de l'ecran*/
+}
 
-        
-        .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+#hole{
+  position:fixed;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  background:radial-gradient(circle,#000 0 25%,#3a1f7a 45%,var(--glow)  60%,#000 62%) ;
+  clip-path:circle(0 at 50% 50%) ;
+  transition:clip-path .9s cubic-bezier(.7,0,.3,1) 
+}
 
-        @media (max-width: 900px){
-            .navbar{ padding: 16px 24px; }
-            .nav-links{ gap: 18px; font-size: 0.9rem; }
-            .hero{ flex-direction: column; text-align: center; padding: 140px 24px 60px; }
-            .hero-content{ max-width: 100%; }
-            .profile-img{ width: 240px; height: 240px; }
-            .skills{ padding: 60px 24px; }
-            .skills-grid{ grid-template-columns: 1fr; }
-        }
-    </style>
-    <!-- link to css file -->
-    <link rel="stylesheet" href="styles.css">
+#hole.open{
+  clip-path:circle(150% at var(--x)  var(--y)) 
+}
+
+#page{
+  position:fixed;
+  inset:0;
+  z-index:7;
+  background:var(--a) ;
+  padding:14vh 7vw;
+  overflow:auto;
+  visibility:hidden
+}
+
+#page.show{
+  visibility:visible
+}
+
+#page button{
+  background:none;
+  border:1px solid var(--mute) ;
+  color:var(--ink) ;
+  border-radius:99px;
+  padding:.5rem 1.2rem;
+  font:inherit;
+  cursor:pointer;
+  margin-top:2rem
+}
+
+#page p{
+  max-width:52ch;
+  color:var(--mute) 
+}
+
+#bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:linear-gradient(90deg,transparent,var(--glow)) ;
+  z-index:10;
+  box-shadow:0 0 12px var(--glow) 
+}
+
+.ctl{
+  position:fixed;
+  top:calc(env(safe-area-inset-top,0px)  + 12px) ;
+  right:12px;
+  z-index:10;
+  display:flex;
+  gap:8px
+}
+
+.ctl button{
+  background:rgba(0,0,0,.35) ;
+  color:var(--ink) ;
+  border:1px solid var(--mute) ;
+  border-radius:99px;
+  padding:.35rem .9rem;
+  font:inherit;
+  font-size:.85rem;
+  cursor:pointer
+}
+
+.sys{
+  position:relative;
+  width:min(88vw,340px) ;
+  aspect-ratio:1;
+  margin:1rem auto
+}
+
+.orb{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) ;
+  border:1px dashed rgba(169,166,196,.35) ;
+  border-radius:50%;
+  animation:spin linear infinite
+}
+
+.pl{
+  position:absolute;
+  top:0;
+  left:50%;
+  border-radius:50%;
+  background:var(--glow) ;
+  transform:translate(-50%,-50%) ;
+  box-shadow:0 0 12px var(--glow) 
+}
+
+.sun{
+  position:absolute;
+  inset:44%;
+  border-radius:50%;
+  background:var(--star) ;
+  box-shadow:0 0 30px var(--glow) 
+}
+
+@keyframes spin{
+  to{transform:translate(-50%,-50%)  rotate(360deg) }
+}
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem 1.2rem;
+  justify-content:center;
+  color:var(--mute) ;
+  font-size:.9rem
+}
+
+#term{
+  position:fixed;
+  inset:0;
+  z-index:11;
+  background:rgba(3,5,15,.94) ;
+  color:#8dffb0;
+  font:15px/1.6 ui-monospace,Menlo,monospace;
+  padding:12vh 7vw;
+  white-space:pre-wrap;
+  display:none;
+  overflow:auto
+}
+
+#pc{
+  background:rgba(0,0,0,.35) ;
+  padding:1rem;
+  border-radius:8px;
+  overflow:auto;
+  font:13px/1.5 ui-monospace,Menlo,monospace;
+  max-width:60ch;color:var(--star) 
+}
+
+
+/* Nom en dégradé doré */
+h1{
+  background:linear-gradient(120deg,#f3ecd8 0%,#ffcf7a 45%,#e0a94a 100%) ;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  padding-bottom:.1em; /* évite de couper le bas du « g » */
+}
+
+/* Texte de présentation doré */
+.sub{
+  color:var(--glow) ;
+  text-shadow:0 0 18px rgba(255,207,122,.35) ;
+}
+
+/* Titres de sections en doré */
+h2.tx span{ color:var(--glow) ; }
+
+/* Petites icônes */
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+  margin-top:1.2rem;
+  opacity:0;
+  transition:opacity 1.5s 3.4s;
+}
+body.on .chips{ opacity:1; }
+.chips span{
+  border:1px solid rgba(255,207,122,.5) ;
+  color:var(--glow) ;
+  border-radius:99px;
+  padding:.3rem .9rem;
+  font-size:.85rem;
+}
+.chips i{ margin-right:.35rem; }
+
+/* Photo */
+.portrait{
+  width:150px;
+  aspect-ratio:3/4;
+  margin-bottom:1.5rem;
+  border-radius:999px 999px 16px 16px;
+  overflow:hidden;
+  border:2px solid var(--glow) ;
+  box-shadow:0 0 30px rgba(255,207,122,.35) ;
+  opacity:0;
+  transition:opacity 2s 2.5s;
+}
+body.on .portrait{ opacity:1; }
+.portrait img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+}
+
+/* Sur grand écran : photo à droite */
+@media(min-width:1100px) {
+  #top{ position:relative; }
+  .portrait{
+    position:absolute;
+    right:7vw;
+    top:50%;
+    transform:translateY(-50%) ;
+    width:clamp(200px,20vw,300px) ;
+    margin-bottom:0;
+  }
+}
+
+/* Section CV */
+.cvtxt{ max-width:44ch; color:var(--mute) ; }
+.cvbtns{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  align-items:center;
+  margin-top:1rem;
+}
+.cvbtn{
+  background:var(--glow) ;
+  color:#1a1230;
+  border-radius:99px;
+  padding:.9rem 2rem;
+  font:600 1rem "Instrument Sans",sans-serif;
+  text-decoration:none;
+  transition:transform .2s, box-shadow .2s;
+}
+.cvbtn:hover{
+  transform:translateY(-2px) ;
+  box-shadow:0 0 20px rgba(255,207,122,.5) ;
+}
+.cvlink{ color:var(--glow) ; text-decoration:none; }
+.cvlink:hover{ text-decoration:underline; }
+.cvbtn:focus-visible,.cvlink:focus-visible{
+  outline:2px solid var(--star) ;
+  outline-offset:4px;
+}
+
+
+@media(prefers-reduced-motion:reduce) {
+  *{animation:none!important;
+    transition-duration:.01s!important
+  }
+  html{
+    scroll-behavior:auto
+  }
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <a href="#home" class="logo">Dev</a>
-        <ul class="nav-links">
-            <li><a href="#home">Accueil</a></li>
-            <li><a href="#skills">skills</a></li>
-            <li><a href="#projects">Projets</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+<canvas id = "sky"></canvas>
+<div id = "bar"></div>
+<div class = "ctl"><button id = "sk">Ciel : auto</button><button id = "snd" aria-pressed = "false">Son : off</button></div>
+<div id = "term" role = "dialog" aria-label = "Terminal"></div>
+<main>
+<section id = "top">
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Développeuse fullstack</h1>
-            <p>Créer des expériences numériques qui allient créativité et technologie.</p>
-            <p class="highlight">Jeune développeuse web passionnée par le développement web moderne et la cybersécurité.</p>
-            <a href="#contact" class="cta-button">Contactez-moi</a>
-        </div>
-        <div class="hero-image">
-            <img src="photo_portfolio.jpg" alt="Profile" class="profile-img">
-        </div>
-    </section>
+   <div class = "portrait">
+    <img src = "photo_portfolio.jpg" alt = "Portrait d'Elsa Borget">
+  </div>
+
+  <h1 id = "name">Elsa Borget</h1>
+  <p class = "sub">Développeuse fullstack. Passionnée de web moderne et de cybersécurité.</p>
+    <div class = "chips">
+    <span><i class = "fa-solid fa-code"></i> Fullstack</span>
+    <span><i class = "fa-solid fa-database"></i> MySQL</span>
+    <span><i class = "fa-solid fa-shield-halved"></i>DevOps</span>
+  </div>
+  <span class = "hint">Descends. Chaque projet est une constellation.</span>
+</section>
+
+<section>
+  <h2 class = "tx">Projets</h2>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Bibliothèque" data-d = "Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Bibliothèque</h2><p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p><p class = "tags">PHP · MySQL</p></div>
+  </div>
+</section>
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Centre de formations" data-d = "Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Centre de formations</h2><p>Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.</p><p class = "tags">PHP · MySQL · CSS</p></div>
+  </div>
+</section>
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "CodeWarden" data-d = "Outil de suivi et de revue de code.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">CodeWarden</h2><p>Outil de suivi et de revue de code.</p><p class = "tags">PHP · JS</p></div>
+  </div>
+</section>
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Snake" data-d = "Le classique, jouable directement ici. Flèches ou glisser du doigt.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Snake</h2><p>Le classique, jouable directement ici. Flèches ou glisser du doigt.</p><p class = "tags">JS · CSS</p></div>
+  </div>
+</section>
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Mots mêlés" data-d = "Retrouve les mots cachés : touche la première puis la dernière lettre.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Mots mêlés</h2><p>Retrouve les mots cachés : touche la première puis la dernière lettre.</p><p class = "tags">JS · CSS</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class = "tx">Mes planètes</h2>
+  <div class = "sys" id = "sys"><div class = "sun"></div></div>
+  <div class = "legend" id = "lg"></div>
+</section>
+
+<section id = "cv">
+  <h2 class = "tx">Mon CV</h2>
+  <p class = "cvtxt">Retrouve mon parcours, mes compétences et mes expériences.</p>
+  <div class = "cvbtns">
+    <a class = "cvbtn" href = "cv_elsa_borget.pdf" download = "CV_Elsa_Borget.pdf">
+      <i class = "fa-solid fa-download"></i> Télécharger mon CV
+    </a>
+    <a class = "cvlink" href = "cv_elsa_borget.pdf" target = "_blank" rel = "noopener">
+      <i class = "fa-solid fa-eye"></i> Voir en ligne
+    </a>
+  </div>
+</section>
+
+<section id = "contact">
+  <h2 class = "tx">Envoie un signal</h2>
+  <form id = "f">
+    <p>Écris-moi sur LinkedIn, ou regarde mon code sur <a class = "tags" href = "https://github.com/elsabgt0728" target = "_blank" rel = "noopener">GitHub</a>.</p>
+    <button class = "mag" type = "submit">Lancer la fusée vers LinkedIn</button>
+  </form>
+  <p id = "ok" class = "tags" aria-live = "polite"></p>
+</section>
+</main>
+
+<svg id = "rocket" viewBox = "0 0 60 30"><path d = "M2 15 L58 2 L40 15 L58 28 Z" fill = "#f3ecd8"/><path d = "M2 15 L40 15 L58 28 Z" fill = "#cfc6a8"/></svg>
+<div id = "hole"></div>
+<div id = "page"><h2 id = "pt"></h2><p id = "pd"></p><p class = "tags" id = "pr"></p><div id = "gm"></div><a class = "tags" id = "pu" href = "#" target = "_blank" rel = "noopener">Voir le code sur GitHub</a><br><button id = "pb">Revenir au ciel</button></div>
+
+<script>
+
+// Ciel selon l'heure réelle (couleur de la page) 
+function setSky(h) {
+  var s  =  document.documentElement.style,p;
+  if( h >=  5 && h<9) p = ['#2a2358','#e27f6b'];
+  else if( h >=  9&&h<17) p = ['#15285e','#3d63a8'];
+  else if( h >=  17&&h<21) p = ['#1c1548','#a1476e'];
+  else p = ['#070b22','#181440'];
+  s.setProperty('--a',p[0]) ;
+  s.setProperty('--b',p[1]) ;
+}
+
+setSky(new Date() .getHours()) ;
 
 
-    <section id="projects" class="Projects">
+var reduce  =  matchMedia('(prefers-reduced-motion:reduce) ') .matches;
+var cv  =  document.getElementById('sky') ,c = cv.getContext('2d') ,W,H,dpr = Math.min(devicePixelRatio||1,2) ;
+var stars = [],trail = [],targets = [],mx = 0,my = 0,sy = 0,T = 0,mxp = -999,myp = -999,shoot = null;
+function size() {
+  W = innerWidth;
+  H = innerHeight;
+  cv.width = W*dpr;
+  cv.height = H*dpr;
+  c.setTransform(dpr,0,0,dpr,0,0) ;
+}
 
-        <div class="wrap">
-        <div class="sec-head">
+size() ;
+addEventListener('resize',size) ;
 
-        <div class="projects-grid">
-        
-        <article class="card">
-          <div class="card-media">
-            <!-- Remplace par : <img src="screenshots/bibliotheque.gif" alt="Démo de bibliotheque"> -->
-            <div class="placeholder">capture / gif à venir<br>screenshots/bibliotheque.gif</div>
-          </div>
-          <div class="card-head"><span class="folder">📁</span>bibliotheque/</div>
-          <div class="card-body">
-            <p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p>
-            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span></div>
-            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/Bibliotheque" target="_blank" rel="noopener">→ voir le code</a>
-          </div>
-        </article>
+for(var i = 0;i<(innerWidth<700?110:220) ;i++) stars.push({x:Math.random() ,y:Math.random() ,z:Math.random() *.9+.1,p:Math.random() *6}) ;
+
+// Nom dessiné en points lumineux
+function sample() {
+  var o = document.createElement('canvas') ,x = o.getContext('2d') ,fs = Math.min(W*.13,144) ;
+  o.width = W;o.height = fs*1.6;x.font = '300 '+fs+'px Fraunces,Georgia,serif';
+  x.fillStyle = '#fff';x.textBaseline = 'top';
+  x.fillText(document.getElementById('name') .textContent,W*.07,fs*.2) ;
+  var d = x.getImageData(0,0,o.width,o.height) .data,r = document.getElementById('name') .getBoundingClientRect() ,oy = r.top+scrollY;
+  for(var yy = 0;yy<o.height;yy += 5) for(var xx = 0;xx<W;xx += 5) if(d[(yy*W+xx) *4+3]>128) 
+    targets.push({tx:xx,ty:oy+yy-fs*.1,x:Math.random() *W,y:Math.random() *H+scrollY,k:Math.random() *.02+.015}) ;
+}
+
+document.fonts.ready.then(function() {
+  sample() ;setTimeout(function() {
+    document.body.classList.add('on') 
+  },reduce?0:1200) 
+}) ;
+
+function loop() {
+  T += .016;c.clearRect(0,0,W,H) ;
+  stars.forEach(function(s) {
+    var px = ((s.x*W-mx*s.z*30) %W+W) %W,py = ((s.y*H-sy*s.z*.6-my*s.z*30) %H+H) %H,a = .4+.6*Math.abs(Math.sin(T*s.z+s.p)) ;
+    c.globalAlpha = a;c.fillStyle = '#f3ecd8';c.beginPath() ;c.arc(px,py,s.z*1.6,0,7) ;
+    c.fill() ;
+  }) ;
+
+  if(scrollY<H*1.2) targets.forEach(function(t) {
+    var dx = t.x-mxp,dy = t.y-scrollY-myp,d = Math.hypot(dx,dy) ;
+    if(d<90&&d>0) {t.x += dx/d*(90-d) *.25;t.y += dy/d*(90-d) *.25;}
+    t.x += (t.tx-t.x) *t.k;
+    t.y += (t.ty-t.y) *t.k;
+    c.globalAlpha = Math.max(0,1-Math.min(1,T/6) *(document.body.classList.contains('on') ?.7:0)) *.9;
+    c.fillStyle = '#ffcf7a';
+    c.fillRect(t.x,t.y-scrollY,2,2) ;
+  }) ;
+
+  if(!shoot&&!reduce&&Math.random() <.004) shoot = {x:Math.random() *W,y:Math.random() *H*.5,l:1};
+  if(shoot) {
+  shoot.x += 14;shoot.y += 6;shoot.l -= .02;c.globalAlpha = Math.max(0,shoot.l) ;
+  c.strokeStyle = '#fff';
+  c.lineWidth = 2;c.beginPath() ;
+  c.moveTo(shoot.x,shoot.y) ;
+  c.lineTo(shoot.x-70,shoot.y-30) ;
+  c.stroke() ;if(shoot.l <=  0) shoot = null;
+}
+
+  trail.forEach(function(p,i) {
+    p.l -= .02;c.globalAlpha = Math.max(0,p.l) ;
+    c.fillStyle = '#ffcf7a';
+    c.beginPath() ;
+    c.arc(p.x+p.dx*(1-p.l) *30,p.y+p.dy*(1-p.l) *30,p.l*3,0,7) ;
+    c.fill() ;}) ;
+  trail = trail.filter(function(p) {return p.l>0}) ;
+  requestAnimationFrame(loop) ;
+}
+loop() ;
+
+function move (e)  {var t = e.touches?e.touches[0]:e;mxp = t.clientX;myp = t.clientY;mx = t.clientX/W-.5;my = t.clientY/H-.5;
+  if(!reduce) trail.push({x:t.clientX,y:t.clientY,l:1,dx:Math.random() -.5,dy:Math.random() -.5}) ;}
+addEventListener('mousemove',move) ;addEventListener('touchmove',move,{passive:true}) ;
+addEventListener('scroll',function() {sy = scrollY},{passive:true}) ;
+
+// Constellations
+document.querySelectorAll('.proj') .forEach(function(el,n) {
+
+  var g = el.querySelector('g') , pts = [], i;
+
+  // les coordonnées des points des 5 constellations
+  var SH  = [
+    [[150,10],[190,70],[190,170],[150,200],[110,170],[110,70]],
+    [[60,170],[60,50],[240,20],[240,140],[200,175],[190,140]],
+    [[20,50],[80,170],[150,60],[220,170],[280,50],[150,110]],
+    [[30,40],[270,40],[270,100],[30,100],[30,170],[270,170]],
+    [[150,20],[230,60],[230,150],[150,200],[70,150],[70,60]]
+    ];
+
+  pts  =  SH[n];
+  var html = '';
+
+  // creation des lignes
+  for(i = 0; i < 5; i++) {
+    var a = pts[i],b = pts[i+1],L = Math.hypot(a[0]-b[0],a[1]-b[1]) ; // 1er point 2e point et distance entre les deux points
+    html += '<line style = "--l:'+L+';transition-delay:'+i*.25+'s" x1 = "'+a[0]+'" y1 = "'+a[1]+'" x2 = "'+b[0]+'" y2 = "'+b[1]+'"/>';
+  }
+
+  pts.forEach(function(p) {
+  html += '<circle cx = "'+p[0]+'" cy = "'+p[1]+'" r = "4"/>';
+  }) ;
+  g.innerHTML = html;
+  el.addEventListener('click',function (e)  {wormhole(e,el.dataset.t,el.dataset.d,n) }) ;
+  el.addEventListener('mouseenter',function() {blip(300+n*150) }) ;
+  el.addEventListener('keydown',function (e)  {if(e.key === 'Enter') wormhole({clientX:W/2,clientY:H/2},el.dataset.t,el.dataset.d,n) }) ;
+}) ;
+
+// Texte révélé lettre par lettre
+document.querySelectorAll('.tx') .forEach(function(el) {
+  var t = el.textContent;                                   //on récupère le texte
+  el.textContent = '';                                // on vide le titre
+  el.setAttribute('aria-label',t) ;                       
+  t.split('') .forEach(function(ch,i) {                      //transforme le mot en liste de lettres []
+    var s = document.createElement('span') ;         //on crée une boîte <span>
+  s.textContent = ch === ' '?'\u00a0':ch;                                      //on y met UNE lettre
+  s.style.transitionDelay = i*40+'ms';s.setAttribute('aria-hidden','true') ;        //on lui donne un délai (temps d'arrivé entre chaque lettre) 
+  el.appendChild(s)                           // on la remet dans le titre
+  }) ;
+
+  /*On obtient un truc comme as <h2 class = "tx"><span>P</span><span>r</span><span>o</span><span>j</span>...</h2>*/
+
+}) ;
+
+new IntersectionObserver(
+  function(es) {
+    es.forEach(function (e)  {
+      if(e.isIntersecting) e.target.classList.add('in') 
+    }
+   ) 
+  },{threshold:.35}) 
+
+  .observe.bind(null) ;
+
+//IntersectionObserver est un guetteur. On lui donne une liste d'éléments (io.observe (e) ) , et il prévient quand l'un d'eux entre dans l'écran.
+var io  =  new IntersectionObserver(function(es) { 
+  es.forEach(function (e)  {
+    if( e.isIntersecting  /*veut dire « il est visible »*/) e.target.classList.add('in')   
+    }
+ ) },
+
+  {threshold:.3}) ; // à partir de 30 % visible
+
+document.querySelectorAll('.proj,.tx') .forEach(function (e)  {
+  io.observe (e)  
+}) ;
+
+// Trou de ver
+var hole = document.getElementById('hole') ,pg = document.getElementById('page') ;
+
+function wormhole(e,t,d,n) {
+  hole.style.setProperty('--x',e.clientX+'px') ;hole.style.setProperty('--y',e.clientY+'px') ;
+  hole.style.clipPath = 'circle(0 at '+e.clientX+'px '+e.clientY+'px) ';
+  requestAnimationFrame(function() {hole.classList.add('open') ;hole.style.clipPath = '';}) ;
+
+  setTimeout(function() {
+    document.getElementById('pt') .textContent = t;document.getElementById('pd') .textContent = d;
+    var x = PJ[n];document.getElementById('pr') .textContent = x.r;
+    document.getElementById('pu') .href = x.u;gm.innerHTML = '';
+    if(x.g) x.g() ;pg.classList.add('show') ;
+    hole.classList.remove('open') ;
+    hole.style.clipPath = 'circle(0 at '+e.clientX+'px '+e.clientY+'px) ';
+  },900) ;
+}
+
+document.getElementById('pb') .onclick = function (e)  {
+  if(window.stopG) stopG() ;gm.innerHTML = '';
+  var r = e.currentTarget.getBoundingClientRect() ;
+  hole.style.clipPath = 'circle(0 at '+(r.left+r.width/2) +'px '+(r.top) +'px) ';
+  hole.style.setProperty('--x',r.left+'px') ;hole.style.setProperty('--y',r.top+'px') ;
+  requestAnimationFrame(function() {hole.classList.add('open') ;hole.style.clipPath = '';}) ;
+  setTimeout(function() {pg.classList.remove('show') ;hole.classList.remove('open') ;hole.style.clipPath = 'circle(0 at 50% 50%) ';},900) ;
+};
+
+// Bouton magnétique
+var m = document.querySelector('.mag') ;
+addEventListener('mousemove',function (e)  {
+  var r = m.getBoundingClientRect() ,dx = e.clientX-(r.left+r.width/2) ,dy = e.clientY-(r.top+r.height/2) ,d = Math.hypot(dx,dy) ;
+  m.style.transform = d<130?'translate('+dx*.3+'px,'+dy*.3+'px) ':'';
+}) ;
+
+// Fusée
+document.getElementById('f') .addEventListener('submit',function (e)  {
+  e.preventDefault() ;             /*un formulaire recharge normalement la page quand on l'envoie. Cette ligne bloque ce comportement, sinon la page se rechargerait avant que la fusée ne décolle.*/
+  var r  =  document.getElementById('rocket') ;
+  r.classList.remove('go') ;
+  void r.getBoundingClientRect() ;     /*oblige le navigateur à faire une pause et à regarder l'état réel de la page à ce moment-là, ce qui « valide » le retrait de la classe avant qu'on la remette*/
+  r.classList.add('go') ;              /*On ajoute puis retire la classe go pour pouvoir rejouer l'animation a chaque clique jusqu'a l'apparition de la page linkedin*/
+  var q  =  this.elements;        /*this pour l'element sur lequel on fait l'action*/
+  document.getElementById('ok') .textContent = "Cap sur LinkedIn…";
+  setTimeout(function() {location.href = 'https://www.linkedin.com/in/elsa-borget'},1800) ;
+}) ;
 
 
-        <article class="card">
-          <div class="card-media">
-            <!-- Remplace par : <img src="screenshots/centre-formations.gif" alt="Démo de centre-formations"> -->
-            <div class="placeholder">capture / gif à venir<br>screenshots/centre-formations.gif</div>
-          </div>
-          <div class="card-head"><span class="folder">📁</span>centre-formations/</div>
-          <div class="card-body">
-            <p>Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.</p>
-            <div class="badges"><span class="badge php">PHP</span><span class="badge sql">MySQL</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/centre-formations" target="_blank" rel="noopener">→ voir le code</a>
-          </div>
-        </article>
+// Projets enrichis (textes à remplacer par les tiens) 
+var gm = document.getElementById('gm') ,GH = 'https://github.com/elsabgt0728/';
+function snake() {
+  var cv = document.createElement('canvas') ;
+  cv.width = cv.height = 280;cv.style.cssText = 'max-width:100%;border:1px solid var(--mute) ;border-radius:8px;touch-action:none';
+  gm.appendChild(cv) ;
+var x = cv.getContext('2d') ,s = [[7,7]],d = [1,0],f = [3,3],sc = 0,ts;
 
-        <article class="card">
-          <div class="card-media">
-            <!-- Remplace par : <img src="screenshots/codewarden.gif" alt="Démo de codewarden"> -->
-            <div class="placeholder">capture / gif à venir<br>screenshots/codewarden.gif</div>
-          </div>
-          <div class="card-head"><span class="folder">📁</span>codewarden/</div>
-          <div class="card-body">
-            <p>Outil de suivi/revue de code — à compléter avec le détail exact du projet.</p>
-            <div class="badges"><span class="badge php">PHP</span><span class="badge js">JS</span></div>
-            <a class="card-link" href="https://github.com/elsabgt0728/codewarden" target="_blank" rel="noopener">→ voir le code</a>
-          </div>
-        </article>
+function key (e)  {
+  var m = {ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];
+  if(m&&(m[0]+d[0]||m[1]+d[1])) {d = m;e.preventDefault() }
+}
 
-        <article class="card"> 
-          <div class="card-media">
-            <!-- Remplace par : <img src="screenshots/studio-enreg.gif" alt="Démo de studio-enreg"> -->
-            <div class="placeholder">  <br>  </div>
-          </div>
+addEventListener('keydown',key) ;
+cv.addEventListener('touchstart',function (e)  {ts = e.touches[0]},{passive:true}) ;
+cv.addEventListener('touchend',function (e)  {
+  var t = e.changedTouches[0],dx = t.clientX-ts.clientX,dy = t.clientY-ts.clientY,m = Math.abs(dx) >Math.abs(dy) ?[dx>0?1:-1,0]:[0,dy>0?1:-1];if(m[0]+d[0]||m[1]+d[1]) d = m 
+}) ;
 
-          <div class="card-head"><span class="folder">📁</span>jeu snake/</div>
-          <div class="card-body">
-            <p> </p>
-            <div class="badges"><span class="badge js">JS</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/jeu-snake" target="_blank" rel="noopener">→ voir le code</a>
-          </div>
-        </article>
+var iv = setInterval(function() {var h = [s[0][0]+d[0],s[0][1]+d[1]];
+ if(h[0]<0||h[1]<0||h[0]>13||h[1]>13||s.some(function(p) {
+  return p[0]  == h[0]&&p[1]  == h[1]})) {s = [[7,7]];
+  d = [1,0];sc = 0;return
+}
+ s.unshift(h) ;
+ if(h[0]  == f[0]&&h[1]  == f[1]) {
+ sc++;f = [Math.random() *14|0,Math.random() *14|0]}else s.pop() ;
+ x.fillStyle = '#0a0f2c';
+ x.fillRect(0,0,280,280) ;
+ x.fillStyle = '#ffcf7a';
+ x.fillRect(f[0]*20,f[1]*20,18,18) ;
+ x.fillStyle = '#f3ecd8';
+ s.forEach(function(p) {
+  x.fillRect(p[0]*20,p[1]*20,18,18) }) ;
+  x.fillText('Score '+sc,8,14) },130) ;
+window.stopG = function() {clearInterval(iv) ;removeEventListener('keydown',key) };
+}
 
-        <article class="card"> 
-          <div class="card-media">
-            <!-- Remplace par : <img src="screenshots/studio-enreg.gif" alt="Démo de studio-enreg"> -->
-            <div class="placeholder">  <br>  </div>
-          </div>
 
-          <div class="card-head"><span class="folder">📁</span>mots melés/</div>
-          <div class="card-body">
-            <p> </p>
-            <div class="badges"><span class="badge js">JS</span><span class="badge css">CSS</span></div>
-            <a class="card-link" href="https://github.com/elsabgt0728/projets/tree/main/mots-melés" target="_blank" rel="noopener">→ voir le code</a>
-          </div>
-        </article>
+function mots() {
+  var W = ['PHP','CSS','CODE','WEB','SQL'],g = [],i,j,A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',a = null,cells = [],box = document.createElement('div') ,st = document.createElement('p') ;
+for(i = 0;i<8;i++) {
+  g[i] = [];
+  for(j = 0;j<8;j++) g[i][j] = A[Math.random() *26|0]
+}
 
-        </div>
-        </div>
-        </div>
+W.forEach(function(w,r) {
+  var c = Math.random() *(9-w.length) |0,row = r*1.5|0;
+  for(j = 0;j<w.length;j++) g[row][c+j] = w[j]}) ;
+st.className = 'tags';
+st.textContent = 'À trouver : '+W.join(' · ') ;
+box.style.cssText = 'display:grid;grid-template-columns:repeat(8,34px) ;gap:4px;margin:1rem 0';
 
-    </section>
+g.forEach(function(row,i) {
+row.forEach(function(l,j) {
+ var b = document.createElement('button') ;b.textContent = l;
+ b.style.cssText = 'height:34px;background:rgba(0,0,0,.35) ;color:var(--ink) ;border:1px solid var(--mute) ;border-radius:6px;cursor:pointer';cells.push(b) ;
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <h2>Compétences</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <i class="fas fa-code"></i>
-                <h3>Frontend Development</h3>
-                <p>React, HTML5, CSS3, JavaScript</p>
-            </div>
-            <div class="skill-card">
-                <i class="fas fa-server"></i>
-                <h3>Backend Development</h3>
-                <p>Node.js, Python, C#, Java, PHP</p>
-            </div>
-            <div class="skill-card">
-                <i class="fas fa-paint-brush"></i>
-                <h3>UI/UX Design</h3>
-                <p>Figma</p>
-            </div>
+ b.onclick = function() {
+  if(!a) {
+    a = [i,j];b.style.borderColor = 'var(--glow) ';
+    return
+  }
 
-             <div class="skill-card">
-                <i class="fa-solid fa-database"></i>
-                <h3>Base de données</h3>
-                <p>mySQL</p>
-                <p> </p>
-            </div>
-        </div>
-    </section>
+  var s = Math.min(a[1],j) ,e = Math.max(a[1],j) ,w = a[0]  == i?g[i].slice(s,e+1) .join('') :'';
+  cells[a[0]*8+a[1]].style.borderColor = '';
+  if(W.indexOf(w) >-1||W.indexOf(w.split('') .reverse() .join('')) >-1) for(var k = s;k <=  e;k++) {
+    cells[i*8+k].style.background = '#ffcf7a';cells[i*8+k].style.color = '#1a1230'
+  }
+  a = null};
+  box.appendChild(b) }) }) ;
+gm.appendChild(st) ;gm.appendChild(box) ;
+}
+var PJ = [{r:'PHP · MySQL',u:GH+'projets/tree/main/Bibliotheque'},{r:'PHP · MySQL · CSS',u:GH+'projets/tree/main/centre-formations'},{r:'PHP · JS',u:GH+'codewarden'},{r:'JavaScript · CSS',u:GH+'projets/tree/main/jeu-snake',g:snake},{r:'JavaScript · CSS',u:GH+'projets/tree/main/mots-melés',g:mots}];
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 CyberDev. All rights reserved.</p>
-        <div class="social-links">
-            <a href="https://github.com/elsabgt0728"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/elsa-borget"><i class="fab fa-linkedin"></i></a>
-            <a href="https://wa.me/33744647492"><i class="fab fa-whatsapp"></i></a>
-        </div>
-    </footer>
+// Compétences en système solaire
+[['JavaScript',80],['PHP',75],['MySQL',70],['React',65],['PHP',75]].forEach(function(s,i) {
+  var r = (i+1) *17+8,o = document.createElement('div') ;o.className = 'orb';
+  o.style.cssText = 'width:'+r+'%;height:'+r+'%;animation-duration:'+(14+i*7) +'s;animation-delay:-'+i*3+'s';
+  var p = document.createElement('div') ;p.className = 'pl';
+  p.style.width = p.style.height = (6+s[1]*.12) +'px';p.title = s[0];
+  o.appendChild(p) ;document.getElementById('sys') .appendChild(o) ;
+  document.getElementById('lg') .insertAdjacentHTML('beforeend','<span>'+s[0]+' '+s[1]+' %</span>') ;
+}) ;
 
-    <!-- link to javascript file -->
-    <script src="script.js"></script>
-    <script>
-        // Défilement doux vers les sections + surbrillance du lien actif dans la nav
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e){
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target){
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
+// Son optionnel
+var ac,on = false;
+function blip(f) {
+  if(!on) return;var o = ac.createOscillator() ,g = ac.createGain() ;
+  o.frequency.value = f;g.gain.setValueAtTime(.05,ac.currentTime) ;
+  g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.4) ;
+  o.connect(g) ;g.connect(ac.destination) ;
+  o.start() ;o.stop(ac.currentTime+.4) ;
+}
+
+document.getElementById('snd') .onclick = function() {
+  on = !on;ac = ac||new AudioContext() ;this.textContent = 'Son : '+(on?'on':'off') ;
+  this.setAttribute('aria-pressed',on) 
+};
+
+// Ciel manuel
+var modes = [['auto',null],['aube',7],['jour',12],['crépuscule',19],['nuit',23]],mi = 0;
+document.getElementById('sk') .onclick = function() {mi = (mi+1) %5;var m = modes[mi];setSky(m[1] === null?new Date() .getHours() :m[1]) ;this.textContent = 'Ciel : '+m[0]};
+
+// Comète de progression
+addEventListener('scroll',function() {document.getElementById('bar') .style.width = scrollY/(document.body.scrollHeight-innerHeight) *100+'%'},{passive:true}) ;
+
+// Terminal caché : tape « sudo » ou le code Konami
+var term = document.getElementById('term') ,buf = '',K = [38,38,40,40,37,39,37,39,66,65],ki = 0;
+function openTerm() {term.style.display = 'block';term.textContent = '';
+  var L = "$ whoami\nelsa-borget\n$ cat contact.txt\nlinkedin: linkedin.com/in/elsa-borget\ngithub: github.com/elsabgt0728\n$ echo merci\nmerci d'avoir cherché\n\n(Échap pour fermer) ",i = 0;
+  var t = setInterval(function() {
+    term.textContent += L[i++]||'';
+    if(i>L.length) clearInterval(t) 
+  },25) ;
+}
+
+addEventListener('keydown',function (e)  {
+  if(e.key === 'Escape') term.style.display = 'none';
+  if(/INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  ki = e.keyCode === K[ki]?ki+1:(e.keyCode === K[0]?1:0) ;if(ki === K.length) {ki = 0;openTerm() }
+  buf = (buf+e.key) .slice(-4) ;if(buf === 'sudo') openTerm() ;
+}) ;
+
+</script>
 </body>
 </html>
