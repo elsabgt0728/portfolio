@@ -8,7 +8,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <style>
 
-/*ease-in-out ! =  ease-out
+/*linear : vitesse constante, aucune accélération ni ralentissement.
+ease-in : démarre lentement, puis accélère.
+ease-out : démarre vite, puis ralentit en douceur à la fin.
+ease-in-out : lent au début, rapide au milieu, lent à la fin.
 transition ! =  animation */
 
 :root{
@@ -106,6 +109,9 @@ body.on .sub{
   50%{transform:translateY(8px) } /*rebond vertical*/
 }
 
+
+
+/*page projet*/
 .proj{
   display:grid;
   grid-template-columns:1fr;
@@ -155,6 +161,8 @@ body.on .sub{
   outline:2px solid var(--glow) ;
   outline-offset:8px
 }
+
+
 
 .tags{
   color:var(--glow) ;
@@ -230,18 +238,19 @@ input:focus,textarea:focus{ /*Cible un élément lorsqu'il a le focus (clic, tab
   100%{opacity:1;transform:translate(180px,-120vh)  rotate(20deg) }  /*sors de l'ecran*/
 }
 
+
 #hole{
   position:fixed;
-  inset:0;
+  inset:0;          /* = top/right/bottom/left:0 → étire l'élément sur toute la surface de son repère (conteneur)*/
   z-index:9;
   pointer-events:none;
   background:radial-gradient(circle,#000 0 25%,#3a1f7a 45%,var(--glow)  60%,#000 62%) ;
   clip-path:circle(0 at 50% 50%) ;
-  transition:clip-path .9s cubic-bezier(.7,0,.3,1) 
+  transition:clip-path .9s cubic-bezier(.7,0,.3,1)  /*acceleration*/
 }
 
 #hole.open{
-  clip-path:circle(150% at var(--x)  var(--y)) 
+  clip-path:circle(150% at var(--x)  var(--y))  /*coordonnées du point de clic*/
 }
 
 #page{
@@ -485,6 +494,21 @@ body.on .portrait{ opacity:1; }
     scroll-behavior:auto
   }
 }
+
+#gm img{
+  max-width:100%;
+  border-radius:8px;
+  border:1px solid var(--mute);
+  display:block;
+}
+
+#gm video{
+  max-width:100%;
+  border-radius:8px;
+  border:1px solid var(--mute);
+  display:block;
+}
+
 </style>
 </head>
 <body>
@@ -507,6 +531,7 @@ body.on .portrait{ opacity:1; }
     <span><i class = "fa-solid fa-shield-halved"></i>DevOps</span>
   </div>
   <span class = "hint">Descends. Chaque projet est une constellation.</span>
+  <span class="hint" style="bottom:2vh;font-size:.75rem;">Indice : tape "sudo" quelque part sur cette page.</span>
 </section>
 
 <section>
@@ -530,12 +555,14 @@ body.on .portrait{ opacity:1; }
     <div><h2 class = "tx">CodeWarden</h2><p>Outil de suivi et de revue de code.</p><p class = "tags">PHP · JS</p></div>
   </div>
 </section>
+
 <section>
   <div class = "proj" tabindex = "0" role = "button" data-t = "Snake" data-d = "Le classique, jouable directement ici. Flèches ou glisser du doigt.">
     <svg viewBox = "0 0 300 220"><g></g></svg>
     <div><h2 class = "tx">Snake</h2><p>Le classique, jouable directement ici. Flèches ou glisser du doigt.</p><p class = "tags">JS · CSS</p></div>
   </div>
 </section>
+
 <section>
   <div class = "proj" tabindex = "0" role = "button" data-t = "Mots mêlés" data-d = "Retrouve les mots cachés : touche la première puis la dernière lettre.">
     <svg viewBox = "0 0 300 220"><g></g></svg>
@@ -570,11 +597,24 @@ body.on .portrait{ opacity:1; }
   </form>
   <p id = "ok" class = "tags" aria-live = "polite"></p>
 </section>
+
 </main>
 
 <svg id = "rocket" viewBox = "0 0 60 30"><path d = "M2 15 L58 2 L40 15 L58 28 Z" fill = "#f3ecd8"/><path d = "M2 15 L40 15 L58 28 Z" fill = "#cfc6a8"/></svg>
+
+
+
 <div id = "hole"></div>
-<div id = "page"><h2 id = "pt"></h2><p id = "pd"></p><p class = "tags" id = "pr"></p><div id = "gm"></div><a class = "tags" id = "pu" href = "#" target = "_blank" rel = "noopener">Voir le code sur GitHub</a><br><button id = "pb">Revenir au ciel</button></div>
+
+
+<div id = "page">
+  <h2 id = "pt"></h2>
+  <p id = "pd"></p>
+  <p class = "tags" id = "pr"></p>
+  <div id = "gm"></div>
+  <a class = "tags" id = "pu" href = "#" target = "_blank" rel = "noopener">Voir le code sur GitHub</a><br>
+  <button id = "pb">Revenir au ciel</button>
+</div>
 
 <script>
 
@@ -592,6 +632,7 @@ function setSky(h) {
 setSky(new Date() .getHours()) ;
 
 
+// etoiles 
 var reduce  =  matchMedia('(prefers-reduced-motion:reduce) ') .matches;
 var cv  =  document.getElementById('sky') ,c = cv.getContext('2d') ,W,H,dpr = Math.min(devicePixelRatio||1,2) ;
 var stars = [],trail = [],targets = [],mx = 0,my = 0,sy = 0,T = 0,mxp = -999,myp = -999,shoot = null;
@@ -606,12 +647,15 @@ function size() {
 size() ;
 addEventListener('resize',size) ;
 
-for(var i = 0;i<(innerWidth<700?110:220) ;i++) stars.push({x:Math.random() ,y:Math.random() ,z:Math.random() *.9+.1,p:Math.random() *6}) ;
+for(var i = 0; i < (innerWidth < 700 ? 110 : 220) ;i++) stars.push({ x:Math.random() ,y:Math.random() ,z:Math.random() *.9+.1, p:Math.random() *6}) ; // moins d'etoiles sur un petit ecran
+
 
 // Nom dessiné en points lumineux
 function sample() {
   var o = document.createElement('canvas') ,x = o.getContext('2d') ,fs = Math.min(W*.13,144) ;
-  o.width = W;o.height = fs*1.6;x.font = '300 '+fs+'px Fraunces,Georgia,serif';
+  o.width = W;
+  o.height = fs*1.6;
+  x.font = '300 '+fs+'px Fraunces,Georgia,serif';
   x.fillStyle = '#fff';x.textBaseline = 'top';
   x.fillText(document.getElementById('name') .textContent,W*.07,fs*.2) ;
   var d = x.getImageData(0,0,o.width,o.height) .data,r = document.getElementById('name') .getBoundingClientRect() ,oy = r.top+scrollY;
@@ -625,17 +669,25 @@ document.fonts.ready.then(function() {
   },reduce?0:1200) 
 }) ;
 
+
+// boucle d'animation affichage des etoiles
 function loop() {
-  T += .016;c.clearRect(0,0,W,H) ;
+  T += .016;
+  c.clearRect(0,0,W,H) ;
   stars.forEach(function(s) {
     var px = ((s.x*W-mx*s.z*30) %W+W) %W,py = ((s.y*H-sy*s.z*.6-my*s.z*30) %H+H) %H,a = .4+.6*Math.abs(Math.sin(T*s.z+s.p)) ;
-    c.globalAlpha = a;c.fillStyle = '#f3ecd8';c.beginPath() ;c.arc(px,py,s.z*1.6,0,7) ;
+    c.globalAlpha = a;
+    c.fillStyle = '#f3ecd8';
+    c.beginPath() ;c.arc(px,py,s.z*1.6,0,7) ;
     c.fill() ;
   }) ;
 
-  if(scrollY<H*1.2) targets.forEach(function(t) {
+  if(scrollY < H*1.2) targets.forEach(function(t) {
     var dx = t.x-mxp,dy = t.y-scrollY-myp,d = Math.hypot(dx,dy) ;
-    if(d<90&&d>0) {t.x += dx/d*(90-d) *.25;t.y += dy/d*(90-d) *.25;}
+    if(d <90 && d>0 ) {
+      t.x += dx/d*(90-d) *.25;
+      t.y += dy/d*(90-d) *.25;
+    }
     t.x += (t.tx-t.x) *t.k;
     t.y += (t.ty-t.y) *t.k;
     c.globalAlpha = Math.max(0,1-Math.min(1,T/6) *(document.body.classList.contains('on') ?.7:0)) *.9;
@@ -664,10 +716,18 @@ function loop() {
 }
 loop() ;
 
-function move (e)  {var t = e.touches?e.touches[0]:e;mxp = t.clientX;myp = t.clientY;mx = t.clientX/W-.5;my = t.clientY/H-.5;
+
+function move (e)  {
+  var t = e.touches?e.touches[0]:e;
+  mxp = t.clientX;
+  myp = t.clientY;
+  mx = t.clientX/W-.5;
+  my = t.clientY/H-.5;
   if(!reduce) trail.push({x:t.clientX,y:t.clientY,l:1,dx:Math.random() -.5,dy:Math.random() -.5}) ;}
-addEventListener('mousemove',move) ;addEventListener('touchmove',move,{passive:true}) ;
+addEventListener('mousemove',move) ;
+addEventListener('touchmove',move,{passive:true}) ;
 addEventListener('scroll',function() {sy = scrollY},{passive:true}) ;
+
 
 // Constellations
 document.querySelectorAll('.proj') .forEach(function(el,n) {
@@ -689,15 +749,14 @@ document.querySelectorAll('.proj') .forEach(function(el,n) {
   // creation des lignes
   for(i = 0; i < 5; i++) {
     var a = pts[i],b = pts[i+1],L = Math.hypot(a[0]-b[0],a[1]-b[1]) ; // 1er point 2e point et distance entre les deux points
-    html += '<line style = "--l:'+L+';transition-delay:'+i*.25+'s" x1 = "'+a[0]+'" y1 = "'+a[1]+'" x2 = "'+b[0]+'" y2 = "'+b[1]+'"/>';
+    html += '<line style = "--l:'+L+';transition-delay:'+i*.25+'s" x1 = "'+a[0]+'" y1 = "'+a[1]+'" x2 = "'+b[0]+'" y2 = "'+b[1]+'"/>';  // creation de la ligne
   }
 
   pts.forEach(function(p) {
-  html += '<circle cx = "'+p[0]+'" cy = "'+p[1]+'" r = "4"/>';
+  html += '<circle cx = "'+p[0]+'" cy = "'+p[1]+'" r = "4"/>';   // creation des ptits cercles en point
   }) ;
-  g.innerHTML = html;
-  el.addEventListener('click',function (e)  { wormhole(e,el.dataset.t,el.dataset.d,n) }) ;
-  el.addEventListener('mouseenter',function() { blip(300+n*150) }) ;
+  g.innerHTML = html;  // dans la balise <g>
+  el.addEventListener('click',function (e)  { wormhole(e,el.dataset.t,el.dataset.d,n) }) ;  // appel de la fonction trou de ver
   el.addEventListener('keydown',function (e)  { if(e.key === 'Enter') wormhole({clientX:W/2,clientY:H/2},el.dataset.t,el.dataset.d,n) }) ;
 }) ;
 
@@ -707,7 +766,7 @@ document.querySelectorAll('.tx') .forEach(function(el) {
   el.textContent = '';                                // on vide le titre
   el.setAttribute('aria-label',t) ;                       
   t.split('') .forEach(function(ch,i) {                      //transforme le mot en liste de lettres []
-    var s = document.createElement('span') ;         //on crée une boîte <span>
+  var s = document.createElement('span') ;         //on crée une boîte <span>
   s.textContent = ch === ' '?'\u00a0':ch;                                      //on y met UNE lettre
   s.style.transitionDelay = i*40+'ms';s.setAttribute('aria-hidden','true') ;        //on lui donne un délai (temps d'arrivé entre chaque lettre) 
   el.appendChild(s)                           // on la remet dans le titre
@@ -743,35 +802,48 @@ document.querySelectorAll('.proj,.tx') .forEach(function (e)  {
 // Trou de ver
 var hole = document.getElementById('hole') ,pg = document.getElementById('page') ;
 
-function wormhole(e,t,d,n) {
-  hole.style.setProperty('--x',e.clientX+'px') ;hole.style.setProperty('--y',e.clientY+'px') ;
+function wormhole(e,t,d,n) {            
+  hole.style.setProperty('--x',e.clientX+'px') ;
+  hole.style.setProperty('--y',e.clientY+'px') ;
   hole.style.clipPath = 'circle(0 at '+e.clientX+'px '+e.clientY+'px) ';
-  requestAnimationFrame(function() {hole.classList.add('open') ;hole.style.clipPath = '';}) ;
+  requestAnimationFrame(function() {
+    hole.classList.add('open') ;
+    hole.style.clipPath = '';
+  }) ;
 
+  /*affichage contenu des pages projets*/
   setTimeout(function() {
-    document.getElementById('pt') .textContent = t;document.getElementById('pd') .textContent = d;
-    var x = PJ[n];document.getElementById('pr') .textContent = x.r;
-    document.getElementById('pu') .href = x.u;gm.innerHTML = '';
-    if(x.g) x.g() ;pg.classList.add('show') ;
+    document.getElementById('pt') .textContent = t;
+    document.getElementById('pd') .textContent = d;
+    var x=PJ[n];document.getElementById('pr').textContent=x.r;
+    document.getElementById('pu').href=x.u;gm.innerHTML='';
+    if(x.video)gm.innerHTML='<video src="'+x.video+'" controls playsinline></video>';
+    else if(x.img)gm.innerHTML='<img src="'+x.img+'" alt="Démonstration de '+t+'">';
+    pg.classList.add('show');
     hole.classList.remove('open') ;
     hole.style.clipPath = 'circle(0 at '+e.clientX+'px '+e.clientY+'px) ';
   },900) ;
 }
 
 document.getElementById('pb') .onclick = function (e)  {
-  if(window.stopG) stopG() ;gm.innerHTML = '';
+  gm.innerHTML = '';
   var r = e.currentTarget.getBoundingClientRect() ;
   hole.style.clipPath = 'circle(0 at '+(r.left+r.width/2) +'px '+(r.top) +'px) ';
-  hole.style.setProperty('--x',r.left+'px') ;hole.style.setProperty('--y',r.top+'px') ;
-  requestAnimationFrame(function() {hole.classList.add('open') ;hole.style.clipPath = '';}) ;
-  setTimeout(function() {pg.classList.remove('show') ;hole.classList.remove('open') ;hole.style.clipPath = 'circle(0 at 50% 50%) ';},900) ;
+  hole.style.setProperty('--x',r.left+'px') ;
+  hole.style.setProperty('--y',r.top+'px') ;
+  requestAnimationFrame(function() {hole.classList.add('open') ;
+  hole.style.clipPath = '';}) ;
+  setTimeout(function() {pg.classList.remove('show') ;
+  hole.classList.remove('open') ;
+  hole.style.clipPath = 'circle(0 at 50% 50%) ';
+  },900) ;
 };
 
 // Bouton magnétique
 var m = document.querySelector('.mag') ;
 addEventListener('mousemove',function (e)  {
-  var r = m.getBoundingClientRect() ,dx = e.clientX-(r.left+r.width/2) ,dy = e.clientY-(r.top+r.height/2) ,d = Math.hypot(dx,dy) ;
-  m.style.transform = d<130?'translate('+dx*.3+'px,'+dy*.3+'px) ':'';
+var r = m.getBoundingClientRect() ,dx = e.clientX-(r.left+r.width/2) ,dy = e.clientY-(r.top+r.height/2) ,d = Math.hypot(dx,dy) ;
+m.style.transform = d<130?'translate('+dx*.3+'px,'+dy*.3+'px) ':'';
 }) ;
 
 // Fusée
@@ -787,80 +859,16 @@ document.getElementById('f') .addEventListener('submit',function (e)  {
 }) ;
 
 
-// Projets enrichis (textes à remplacer par les tiens) 
+// Projets enrichis  
 var gm = document.getElementById('gm') ,GH = 'https://github.com/elsabgt0728/';
-function snake() {
-  var cv = document.createElement('canvas') ;
-  cv.width = cv.height = 280;cv.style.cssText = 'max-width:100%;border:1px solid var(--mute) ;border-radius:8px;touch-action:none';
-  gm.appendChild(cv) ;
-var x = cv.getContext('2d') ,s = [[7,7]],d = [1,0],f = [3,3],sc = 0,ts;
 
-function key (e)  {
-  var m = {ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]}[e.key];
-  if(m&&(m[0]+d[0]||m[1]+d[1])) {d = m;e.preventDefault() }
-}
-
-addEventListener('keydown',key) ;
-cv.addEventListener('touchstart',function (e)  {ts = e.touches[0]},{passive:true}) ;
-cv.addEventListener('touchend',function (e)  {
-  var t = e.changedTouches[0],dx = t.clientX-ts.clientX,dy = t.clientY-ts.clientY,m = Math.abs(dx) >Math.abs(dy) ?[dx>0?1:-1,0]:[0,dy>0?1:-1];if(m[0]+d[0]||m[1]+d[1]) d = m 
-}) ;
-
-var iv = setInterval(function() {var h = [s[0][0]+d[0],s[0][1]+d[1]];
- if(h[0]<0||h[1]<0||h[0]>13||h[1]>13||s.some(function(p) {
-  return p[0]  == h[0]&&p[1]  == h[1]})) {s = [[7,7]];
-  d = [1,0];sc = 0;return
-}
- s.unshift(h) ;
- if(h[0]  == f[0]&&h[1]  == f[1]) {
- sc++;f = [Math.random() *14|0,Math.random() *14|0]}else s.pop() ;
- x.fillStyle = '#0a0f2c';
- x.fillRect(0,0,280,280) ;
- x.fillStyle = '#ffcf7a';
- x.fillRect(f[0]*20,f[1]*20,18,18) ;
- x.fillStyle = '#f3ecd8';
- s.forEach(function(p) {
-  x.fillRect(p[0]*20,p[1]*20,18,18) }) ;
-  x.fillText('Score '+sc,8,14) },130) ;
-window.stopG = function() {clearInterval(iv) ;removeEventListener('keydown',key) };
-}
-
-
-function mots() {
-  var W = ['PHP','CSS','CODE','WEB','SQL'],g = [],i,j,A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',a = null,cells = [],box = document.createElement('div') ,st = document.createElement('p') ;
-for(i = 0;i<8;i++) {
-  g[i] = [];
-  for(j = 0;j<8;j++) g[i][j] = A[Math.random() *26|0]
-}
-
-W.forEach(function(w,r) {
-  var c = Math.random() *(9-w.length) |0,row = r*1.5|0;
-  for(j = 0;j<w.length;j++) g[row][c+j] = w[j]}) ;
-st.className = 'tags';
-st.textContent = 'À trouver : '+W.join(' · ') ;
-box.style.cssText = 'display:grid;grid-template-columns:repeat(8,34px) ;gap:4px;margin:1rem 0';
-
-g.forEach(function(row,i) {
-row.forEach(function(l,j) {
- var b = document.createElement('button') ;b.textContent = l;
- b.style.cssText = 'height:34px;background:rgba(0,0,0,.35) ;color:var(--ink) ;border:1px solid var(--mute) ;border-radius:6px;cursor:pointer';cells.push(b) ;
-
- b.onclick = function() {
-  if(!a) {
-    a = [i,j];b.style.borderColor = 'var(--glow) ';
-    return
-  }
-
-  var s = Math.min(a[1],j) ,e = Math.max(a[1],j) ,w = a[0]  == i?g[i].slice(s,e+1) .join('') :'';
-  cells[a[0]*8+a[1]].style.borderColor = '';
-  if(W.indexOf(w) >-1||W.indexOf(w.split('') .reverse() .join('')) >-1) for(var k = s;k <=  e;k++) {
-    cells[i*8+k].style.background = '#ffcf7a';cells[i*8+k].style.color = '#1a1230'
-  }
-  a = null};
-  box.appendChild(b) }) }) ;
-gm.appendChild(st) ;gm.appendChild(box) ;
-}
-var PJ = [{r:'PHP · MySQL',u:GH+'projets/tree/main/Bibliotheque'},{r:'PHP · MySQL · CSS',u:GH+'projets/tree/main/centre-formations'},{r:'PHP · JS',u:GH+'codewarden'},{r:'JavaScript · CSS',u:GH+'projets/tree/main/jeu-snake',g:snake},{r:'JavaScript · CSS',u:GH+'projets/tree/main/mots-melés',g:mots}];
+var PJ=[
+  {r:'PHP · MySQL',           u:GH+'projets/tree/main/Bibliotheque',        video:'bibliotheque-demo.mp4'},
+  {r:'PHP · MySQL · CSS',     u:GH+'projets/tree/main/centre-formations',   video:'centre-formations-demo.mp4'},
+  {r:'PHP · JS',              u:GH+'codewarden',                           video:'codewarden-demo.mp4'},
+  {r:'JavaScript · CSS',      u:GH+'projets/tree/main/jeu-snake',           video:'snake-demo.mp4'},
+  {r:'JavaScript · CSS',      u:GH+'projets/tree/main/mots-melés',          video:'mots-demo.mp4'}
+];
 
 // Compétences en système solaire
 [['JavaScript',80],['PHP',75],['MySQL',70],['React',65],['PHP',75]].forEach(function(s,i) {
@@ -889,14 +897,17 @@ document.getElementById('snd') .onclick = function() {
 
 // Ciel manuel
 var modes = [['auto',null],['aube',7],['jour',12],['crépuscule',19],['nuit',23]],mi = 0;
-document.getElementById('sk') .onclick = function() {mi = (mi+1) %5;var m = modes[mi];setSky(m[1] === null?new Date() .getHours() :m[1]) ;this.textContent = 'Ciel : '+m[0]};
+document.getElementById('sk') .onclick = function() {mi = (mi+1) %5;
+var m = modes[mi];setSky(m[1] === null?new Date() .getHours() :m[1]) ;
+this.textContent = 'Ciel : '+m[0]};
 
 // Comète de progression
 addEventListener('scroll',function() {document.getElementById('bar') .style.width = scrollY/(document.body.scrollHeight-innerHeight) *100+'%'},{passive:true}) ;
 
 // Terminal caché : tape « sudo » ou le code Konami
 var term = document.getElementById('term') ,buf = '',K = [38,38,40,40,37,39,37,39,66,65],ki = 0;
-function openTerm() {term.style.display = 'block';term.textContent = '';
+function openTerm() {
+  term.style.display = 'block';term.textContent = '';
   var L = "$ whoami\nelsa-borget\n$ cat contact.txt\nlinkedin: linkedin.com/in/elsa-borget\ngithub: github.com/elsabgt0728\n$ echo merci\nmerci d'avoir cherché\n\n(Échap pour fermer) ",i = 0;
   var t = setInterval(function() {
     term.textContent += L[i++]||'';
@@ -907,7 +918,8 @@ function openTerm() {term.style.display = 'block';term.textContent = '';
 addEventListener('keydown',function (e)  {
   if(e.key === 'Escape') term.style.display = 'none';
   if(/INPUT|TEXTAREA/.test(e.target.tagName)) return;
-  ki = e.keyCode === K[ki]?ki+1:(e.keyCode === K[0]?1:0) ;if(ki === K.length) {ki = 0;openTerm() }
+  ki = e.keyCode === K[ki]?ki+1:(e.keyCode === K[0]?1:0) ;
+  if(ki === K.length) {ki = 0;openTerm() }
   buf = (buf+e.key) .slice(-4) ;if(buf === 'sudo') openTerm() ;
 }) ;
 

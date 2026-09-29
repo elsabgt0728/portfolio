@@ -127,25 +127,25 @@ Les particules sont aussi repoussées par la souris (même logique que la traîn
 
 ## 3. Les apparitions en fondu
 
-Déjà détaillé plus haut dans la conversation. En résumé : le CSS définit un état caché (`opacity:0`) et un état visible (`body.on ...{opacity:1}`), relié par une `transition`. Le JS ajoute la classe `on` au `<body>` avec un léger délai (`setTimeout(...,1200)`) après le chargement de la police, ce qui déclenche en cascade l'apparition du nom, du texte, des icônes, etc., chacun avec son propre délai de transition.
+ En résumé : le CSS définit un état caché (`opacity:0`) et un état visible (`body.on ...{opacity:1}`), relié par une `transition`. Le JS ajoute la classe `on` au `<body>` avec un léger délai (`setTimeout(...,1200)`) après le chargement de la police, ce qui déclenche en cascade l'apparition du nom, du texte, des icônes, etc., chacun avec son propre délai de transition.
 
 ---
 
 ## 4. Les lettres révélées une à une
 
-Déjà détaillé plus haut. En résumé : le JS découpe chaque titre `.tx` en un `<span>` par lettre, chacun avec un délai croissant (`i*40ms`). Un `IntersectionObserver` ajoute la classe `in` au titre quand il devient visible à l'écran (à 30 % visible), ce qui déclenche en CSS le passage de chaque lettre du flou/invisible au net/visible.
+En résumé : le JS découpe chaque titre `.tx` en un `<span>` par lettre, chacun avec un délai croissant (`i*40ms`). Un `IntersectionObserver` ajoute la classe `in` au titre quand il devient visible à l'écran (à 30 % visible), ce qui déclenche en CSS le passage de chaque lettre du flou/invisible au net/visible.
 
 ---
 
 ## 5. Les constellations de projets
 
-Déjà détaillé plus haut. En résumé : un tableau `SH` contient les coordonnées de 6 points par projet. Une boucle construit le texte HTML de 5 `<line>` (une entre chaque paire de points consécutifs) et 6 `<circle>`, avec la longueur de chaque ligne calculée (`Math.hypot`) et stockée dans la variable CSS `--l`, utilisée pour l'effet de trait qui se dessine (`stroke-dasharray` / `stroke-dashoffset`). Ce texte est injecté dans le SVG vide du projet avec `innerHTML`.
+En résumé : un tableau `SH` contient les coordonnées de 6 points par projet. Une boucle construit le texte HTML de 5 `<line>` (une entre chaque paire de points consécutifs) et 6 `<circle>`, avec la longueur de chaque ligne calculée (`Math.hypot`) et stockée dans la variable CSS `--l`, utilisée pour l'effet de trait qui se dessine (`stroke-dasharray` / `stroke-dashoffset`). Ce texte est injecté dans le SVG vide du projet avec `innerHTML`.
 
 ---
 
 ## 6. Le trou de ver
 
-Déjà détaillé plus haut. En résumé : au clic sur un projet, la fonction `wormhole()` place un cercle CSS (`clip-path:circle(...)`) à l'endroit exact du clic (variables `--x`/`--y`), le fait grandir jusqu'à couvrir l'écran, puis, une fois l'écran couvert (après 900 ms, la durée de la transition), remplit et affiche la page de détail du projet (titre, description, technos, lien GitHub, jeu éventuel).
+En résumé : au clic sur un projet, la fonction `wormhole()` place un cercle CSS (`clip-path:circle(...)`) à l'endroit exact du clic (variables `--x`/`--y`), le fait grandir jusqu'à couvrir l'écran, puis, une fois l'écran couvert (après 900 ms, la durée de la transition), remplit et affiche la page de détail du projet (titre, description, technos, lien GitHub, jeu éventuel).
 
 ---
 
