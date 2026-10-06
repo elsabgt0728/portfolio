@@ -535,31 +535,46 @@ body.on .portrait{ opacity:1; }
 </section>
 
 <section>
-  <h2 class = "tx">Projets</h2>
-  <div class = "proj" tabindex = "0" role = "button" data-t = "Bibliothèque" data-d = "Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.">
-    <svg viewBox = "0 0 300 220"><g></g></svg>
-    <div><h2 class = "tx">Bibliothèque</h2><p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p><p class = "tags">PHP · MySQL</p></div>
-  </div>
-</section>
-
-<section>
-  <div class = "proj" tabindex = "0" role = "button" data-t = "Centre de formations" data-d = "Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.">
-    <svg viewBox = "0 0 300 220"><g></g></svg>
-    <div><h2 class = "tx">Centre de formations</h2><p>Plateforme de gestion d'un centre de formation : inscriptions, plannings et suivi des sessions.</p><p class = "tags">PHP · MySQL · CSS</p></div>
-  </div>
-</section>
-
-<section>
+   <h2 class = "tx">Projets</h2>
   <div class = "proj" tabindex = "0" role = "button" data-t = "CodeWarden" data-d = "Outil de suivi et de revue de code.">
     <svg viewBox = "0 0 300 220"><g></g></svg>
-    <div><h2 class = "tx">CodeWarden</h2><p>Outil de suivi et de revue de code.</p><p class = "tags">PHP · JS</p></div>
+    <div><h2 class = "tx">CodeWarden</h2><p>Une plateforme web d'admission permettant à un établissement de faire passer des tests techniques en ligne à des candidats.</p><p class = "tags">PHP · JS · CSS</p></div>
   </div>
 </section>
 
 <section>
-  <div class = "proj" tabindex = "0" role = "button" data-t = "Snake" data-d = "Le classique, jouable directement ici. Flèches ou glisser du doigt.">
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Helpdesk" data-d = "">
     <svg viewBox = "0 0 300 220"><g></g></svg>
-    <div><h2 class = "tx">Snake</h2><p>Le classique, jouable directement ici. Flèches ou glisser du doigt.</p><p class = "tags">JS · CSS</p></div>
+    <div><h2 class = "tx">Helpdesk</h2><p></p><p class = "tags">PHP · MySQL · CSS</p></div>
+  </div>
+</section>
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Nom du projet" data-d = "Plateforme de suivi de candidatures de stages et d'alternances">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">CandiTrack</h2><p>Plateforme de suivi de candidatures de stages et d'alternances</p><p class = "tags">Python + FastAPI · React · Tailwind CSS · PostgreSQL · SQLAlchemy ·</p></div>
+  </div>
+</section>
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Nom du projet" data-d = "">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">CRM</h2><p></p><p class = "tags"> C# · JS · MongoDB · PostgreSQL · CSS</p></div>
+  </div>
+</section>
+
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Bibliothèque" data-d = "Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Bibliothèque</h2><p>Système de gestion de bibliothèque : emprunts, retours, catalogue et recherche d'ouvrages.</p><p class = "tags">PHP · MySQL · CSS</p></div>
+  </div>
+</section>
+
+<section>
+  <div class = "proj" tabindex = "0" role = "button" data-t = "Un jeu de Snake classique, recodé from scratch en JavaScript et CSS — déplacement du serpent, gestion des collisions et score en temps réel.">
+    <svg viewBox = "0 0 300 220"><g></g></svg>
+    <div><h2 class = "tx">Snake</h2><p>Un jeu de Snake classique, recodé from scratch en JavaScript et CSS — déplacement du serpent, gestion des collisions et score en temps réel.</p><p class = "tags">JS · CSS</p></div>
   </div>
 </section>
 
@@ -737,6 +752,8 @@ document.querySelectorAll('.proj') .forEach(function(el,n) {
   // les coordonnées des points des 5 constellations
   var SH  = [
     [[150,10],[190,70],[190,170],[150,200],[110,170],[110,70]],
+    [[50,30],[250,30],[250,190],[50,190],[150,110],[50,30]],
+    [[30,190],[90,30],[150,150],[210,30],[270,190],[150,90]],
     [[60,170],[60,50],[240,20],[240,140],[200,175],[190,140]],
     [[20,50],[80,170],[150,60],[220,170],[280,50],[150,110]],
     [[30,40],[270,40],[270,100],[30,100],[30,170],[270,170]],
@@ -863,15 +880,17 @@ document.getElementById('f') .addEventListener('submit',function (e)  {
 var gm = document.getElementById('gm') ,GH = 'https://github.com/elsabgt0728/';
 
 var PJ=[
-  {r:'PHP · MySQL',           u:GH+'projets/tree/main/Bibliotheque',        video:'bibliotheque-demo.mp4'},
-  {r:'PHP · MySQL · CSS',     u:GH+'projets/tree/main/centre-formations',   video:'centre-formations-demo.mp4'},
-  {r:'PHP · JS',              u:GH+'codewarden',                           video:'codewarden-demo.mp4'},
+  {r:'PHP · JS · CSS',              u:GH+'codewarden',                           video:'codewarden-demo.mp4'},
+  {r:'PHP · MySQL · CSS',     u:GH+'projets/tree/main/helpdesk',   video:'helpdesk-demo.mp4'},
+  {r:'Python + FastAPI · React · PostgreSQL · SQLAlchemy · Tailwind CSS', u:GH+'projets/tree/main/ton-projet', video:'ton-projet-demo.mp4'},
+  {r:'C# · JS · MongoDB · PostgreSQL · CSS', u:GH+'projets/tree/main/ton-projet', video:'ton-projet-demo.mp4'},
+  {r:'PHP · MySQL · CSS',           u:GH+'projets/tree/main/Bibliotheque',        video:'bibliotheque-demo.mp4'},
   {r:'JavaScript · CSS',      u:GH+'projets/tree/main/jeu-snake',           video:'snake-demo.mp4'},
-  {r:'JavaScript · CSS',      u:GH+'projets/tree/main/mots-melés',          video:'mots-demo.mp4'}
+  {r:'JavaScript · CSS',      u:GH+'projets/tree/main/mots-melés',          video:'mots-demo.mp4'},
 ];
 
 // Compétences en système solaire
-[['JavaScript',80],['PHP',75],['MySQL',70],['React',65],['PHP',75]].forEach(function(s,i) {
+[['JavaScript',75],['PHP',75],['MySQL',70],['React',55],['Python',65],['C#', 65],['MongoDB', 30],['PostgreSQL', 30]].forEach(function(s,i) {
   var r = (i+1) *17+8,o = document.createElement('div') ;o.className = 'orb';
   o.style.cssText = 'width:'+r+'%;height:'+r+'%;animation-duration:'+(14+i*7) +'s;animation-delay:-'+i*3+'s';
   var p = document.createElement('div') ;p.className = 'pl';
@@ -908,7 +927,7 @@ addEventListener('scroll',function() {document.getElementById('bar') .style.widt
 var term = document.getElementById('term') ,buf = '',K = [38,38,40,40,37,39,37,39,66,65],ki = 0;
 function openTerm() {
   term.style.display = 'block';term.textContent = '';
-  var L = "$ whoami\nelsa-borget\n$ cat contact.txt\nlinkedin: linkedin.com/in/elsa-borget\ngithub: github.com/elsabgt0728\n$ echo merci\nmerci d'avoir cherché\n\n(Échap pour fermer) ",i = 0;
+  var L = "$ whoami\nelsa-borget, etudiante en programme expert en informatique filiere Logiciel et IA \n$ cat contact.txt\nlinkedin: linkedin.com/in/elsa-borget\ngithub: github.com/elsabgt0728\n$ echo merci\nmerci d'avoir cherché\n\n(Échap pour fermer) ",i = 0;
   var t = setInterval(function() {
     term.textContent += L[i++]||'';
     if(i>L.length) clearInterval(t) 
@@ -916,11 +935,17 @@ function openTerm() {
 }
 
 addEventListener('keydown',function (e)  {
+
   if(e.key === 'Escape') term.style.display = 'none';
-  if(/INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if(/INPUT|TEXTAREA/.test(e.target.tagName)) 
+  return;
+
   ki = e.keyCode === K[ki]?ki+1:(e.keyCode === K[0]?1:0) ;
-  if(ki === K.length) {ki = 0;openTerm() }
-  buf = (buf+e.key) .slice(-4) ;if(buf === 'sudo') openTerm() ;
+  if(ki === K.length) {
+    ki = 0;openTerm() 
+  }
+  buf = (buf+e.key) .slice(-4) ;
+  if(buf === 'sudo') openTerm() ;
 }) ;
 
 </script>
